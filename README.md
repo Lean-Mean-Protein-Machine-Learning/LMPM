@@ -1,4 +1,5 @@
 # Lean Mean Protein Machine (Learning)
+* Andrew Favor
 
 * Andrew Favor
 * Melissa Ling
