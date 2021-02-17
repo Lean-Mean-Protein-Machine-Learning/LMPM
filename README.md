@@ -26,7 +26,7 @@ Structure-based design of proteins is promising in synthetic biology research. T
 	- After receiving the results of the provided protein, the protein designer has the option to improve the secretion of te protein of interest.
 	- If the user selects this option, the model uses site saturation mutagenesis or a genetic algorithm to generate diversity from the initial sequence of interest.
 	- This newly generated sequences are analyzed in batch with the model to identify mutations that could increase the predicted secretion of the protein.
-
+	- The protein designer visualizes the results and uses that information to improve the secretion of the protein of interest.
 
 # Dependencies
 1. [BioPython](https://anaconda.org/bioconda/biopython)
