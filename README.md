@@ -3,6 +3,7 @@
 * Melissa Ling
 * Joe Henthorn
 * Marc Expòsit
+* Gizem Gokce
 
 # Project Overview
 Structure-based design of proteins is promising in synthetic biology research. This has many applications, such as development of nanoparticle vaccines. However, one of the major hurdles to function and use of designed nanoparticles is sub-optimal secretion. In this project, we will analyze native, characterized proteins in the human proteome in order to understand what features contribute to protein secretion (such as isoelectric point, amino acid length, and protein size). We will develop a model that can predict whether a designed protein will be secreted out of the cell, become a transmembrane protein, or remain a soluble or intracellular protein.
@@ -38,4 +39,31 @@ Structure-based design of proteins is promising in synthetic biology research. T
 4. [Jax](https://anaconda.org/conda-forge/jax)
 	- High-efficiency math library, optimized for accelerated linear algebra (XLA)
 5. [Jax-UniRep](https://github.com/ElArkk/jax-unirep)
-	- Library for applying the protein sequence-encoding paradigm, [UniRe](https://www.nature.com/articles/s41592-019-0598-1), implemented using Jax instead of Tensorflow
+	- Library for applying the protein sequence-encoding paradigm, [UniRep](https://www.nature.com/articles/s41592-019-0598-1), implemented using Jax instead of Tensorflow
+    
+# Components
+1. data_to_unirep
+    - Function: Takes the input file sequences and converts the sequences to a set of 1900 vectors in an output file
+    - Inputs: Sequences in amino acid single-letter format (string)
+    - Outputs: Vectors (Float)
+    - Dependencies: Jax-UniRep
+2. ridge_regression
+    - Function: Performs a ridge regression classification on training data and tests it on testing data
+    - Inputs: Training data and testing data for X (UniRep vectors) and y (secretion state) in a DataFrame
+    - Outputs: Accuracy score for testing data set (Float)
+    - Dependencies: sklearn RidgeClassifierCV, train_test_split
+3. knn_classifier
+    - Function: Trains the training data using KNN and tests it on testing data
+    - Inputs: Training data and testing data for X (UniRep vectors) and y (secretion state) in a DataFrame
+    - Outputs: Accuracy score for testing data set (Floar)
+    - Dependencies: sklearn KNeighborsClassifier, train_test_split
+4. use_additional_features
+    - Function: Adds additional features to the data sets, such as pI, amino acid length, etc.
+    - Inputs: New columns in DataFrame to correspond to each additional feature
+    - Outputs: New DataFrame that includes additional features for each protein
+    - Dependencies: Pandas, Biopython (for calculating pI)
+5. secretion_optimization
+    - Function: Introduces point mutations into the sequence of a non-secreting protein
+    - Inputs: Amino acid sequence in single-letter format (string), position(s) of point mutation (integer)
+    - Outputs: New, mutated amino acid sequence in single-letter format (string)
+    - Dependencies: 
