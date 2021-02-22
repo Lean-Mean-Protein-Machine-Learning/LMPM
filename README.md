@@ -42,27 +42,32 @@ Structure-based design of proteins is promising in synthetic biology research. T
 	- Library for applying the protein sequence-encoding paradigm, [UniRep](https://www.nature.com/articles/s41592-019-0598-1), implemented using Jax instead of Tensorflow
     
 # Components
-1. data_to_unirep
+1. check_data
+    - Function: Check if the input sequences are valid and adapt it from different accepted formats to the format used to process data.
+    - Inputs: Input sequence/s provided by the user in FASTA format (either as nucleotide or amino acid sequences) or as sequences in three-character format.
+    - Outputs: If the sequence/s contain any non-standard characters, the user is prompted to enter a new sequence. If the sequences are correct, it passes amino acid sequences in single-character format to `data_to_unirep`.
+    - Dependencies: Biopython
+2. data_to_unirep
     - Function: Takes the input file sequences and converts the sequences to a set of 1900 vectors in an output file
     - Inputs: Sequences in amino acid single-letter format (string)
     - Outputs: Vectors (Float)
     - Dependencies: Jax-UniRep
-2. ridge_regression
+3. ridge_regression
     - Function: Performs a ridge regression classification on training data and tests it on testing data
     - Inputs: Training data and testing data for X (UniRep vectors) and y (secretion state) in a DataFrame
     - Outputs: Accuracy score for testing data set (Float)
     - Dependencies: sklearn RidgeClassifierCV, train_test_split
-3. knn_classifier
+4. knn_classifier
     - Function: Trains the training data using KNN and tests it on testing data
     - Inputs: Training data and testing data for X (UniRep vectors) and y (secretion state) in a DataFrame
     - Outputs: Accuracy score for testing data set (Floar)
     - Dependencies: sklearn KNeighborsClassifier, train_test_split
-4. use_additional_features
+5. use_additional_features
     - Function: Adds additional features to the data sets, such as pI, amino acid length, etc.
     - Inputs: New columns in DataFrame to correspond to each additional feature
     - Outputs: New DataFrame that includes additional features for each protein
     - Dependencies: Pandas, Biopython (for calculating pI)
-5. secretion_optimization
+6. secretion_optimization
     - Function: Introduces point mutations into the sequence of a non-secreting protein
     - Inputs: Amino acid sequence in single-letter format (string), position(s) of point mutation (integer)
     - Outputs: New, mutated amino acid sequence in single-letter format (string)
