@@ -1,0 +1,14 @@
+name: lmpmenv
+channels:
+  - defaults
+dependencies:
+  - python=3.8.8
+  - matplotlib
+  - numba
+  - pandas
+  - seaborn
+  - numpy
+  - biopython
+  - scikit-learn
+  - flask
+prefix: /home/mexposit/miniconda3/envs/lmpmenv

@@ -1,12 +1,26 @@
-# set a base environment
-FROM python:3.7.10-slim
+# set conda as base environment
+FROM continuumio/miniconda3
+
+# make docker use bash instead of sh
+SHELL ["/bin/bash","--login","-c"]
+
 # We copy just the requirements.txt first to leverage Docker cache
-COPY ./app/requirements.txt ./app/requirements.txt
+COPY ./environment.yml ./app/environment.yml
 # define the working directory inside the container (created if does not exist)
 WORKDIR /app
+
 # install the dependencies
-RUN pip3 install -r requirements.txt
+#RUN pip3 install -r requirements.txt
+# to run conda you have to do it this way:
+RUN conda env create -f environment.yml
+
 # copy the contents of app/ external directory inside current container directory (app/):
 COPY ./app .
+
+# make the entrypoint script executable
+RUN chmod u+x entrypoint.sh
+# run entrypoint, so that conda is activated when running the CMD command and we effectively inside the conda environment
+ENTRYPOINT ["entrypoint.sh"]
+
 # run flask app from the app.py file inside the just created /app folder
 CMD ["python","app.py"]
