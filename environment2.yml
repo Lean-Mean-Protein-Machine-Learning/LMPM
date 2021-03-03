@@ -3,12 +3,12 @@ channels:
   - defaults
 dependencies:
   - python=3.8.8
-  - matplotlib
-  - numba
-  - pandas
-  - seaborn
-  - numpy
-  - biopython
-  - scikit-learn
-  - flask
+  - numpy=1.20.1
+  - pandas=1.2.3
+  - matplotlib=3.3.4
+  - seaborn=0.11.1
+  - numba=0.52.0
+  - biopython=1.78
+  - scikit-learn=0.24.1
+  - flask=1.1.2
 prefix: /home/mexposit/miniconda3/envs/lmpmenv
