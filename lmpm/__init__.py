@@ -10,3 +10,5 @@ of interest.
 See https://github.com/Lean-Mean-Protein-Machine-Learning/LMPM
 for complete documentation.
 """
+
+from .get_seq_ex import seq_length
