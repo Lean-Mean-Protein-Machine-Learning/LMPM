@@ -5,8 +5,8 @@ import numpy as np
 
 # only for local development append path to your working directory (change it depending on your user)
 # sys.path.append('/home/mexposit/LMPM/')
-# import lmpm
-# from lmpm import submodule_ex
+import lmpm
+from lmpm import submodule_ex
 ##Alternative
 ## import lmpm.submodule_ex as submod
 
