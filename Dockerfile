@@ -9,16 +9,16 @@ COPY ./environment.yml ./app/environment.yml
 # define the working directory inside the container (created if does not exist)
 WORKDIR /app
 
-# install the dependencies
-#RUN pip3 install -r requirements.txt
-# to run conda you have to do it this way:
-RUN conda env create -f environment.yml
-
 # copy the contents of app/ external directory inside current container directory (app/):
 COPY ./app .
 
 # make the entrypoint script executable
 RUN chmod u+x entrypoint.sh
+
+# install the dependencies
+#RUN pip3 install -r requirements.txt
+# to run conda you have to do it this way:
+RUN conda env create -f environment.yml
 # run entrypoint, so that conda is activated when running the CMD command and we effectively inside the conda environment
 ENTRYPOINT ["entrypoint.sh"]
 
