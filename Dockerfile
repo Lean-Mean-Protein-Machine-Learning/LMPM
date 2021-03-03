@@ -20,7 +20,7 @@ RUN chmod u+x entrypoint.sh
 # to run conda you have to do it this way:
 RUN conda env create -f environment.yml
 # run entrypoint, so that conda is activated when running the CMD command and we effectively inside the conda environment
-ENTRYPOINT ["entrypoint.sh"]
+ENTRYPOINT ["/app/entrypoint.sh"]
 
 # run flask app from the app.py file inside the just created /app folder
-CMD ["python","app.py"]
+CMD ["python","/app/app.py"]
