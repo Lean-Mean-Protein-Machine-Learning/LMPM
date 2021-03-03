@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+{% block page_title %}LMPM home{% endblock %}
+{% block content %}
+
+
+
+<main role="main">
+
+    <!-- Main jumbotron for a primary marketing message or call to action -->
+    <div class="jumbotron">
+        <div class="container">
+            <h1 class="display-3">Lean, Mean, Protein Machine!</h1>
+            <p>Helping protein designers predict where proteins are secreted since 2021.</p>
+            <p><a class="btn btn-primary btn-lg" href="#predictor_container" role="button">Try it &raquo;</a></p>
+            <p><a class="btn btn-primary btn-lg" href="{{ url_for('get_about') }}" role="button">Learn more &raquo;</a>
+            </p>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- Example row of columns -->
+        <div class="row">
+            <div class="col-md-4">
+                <h3>Protein secretion</h3>
+                <p><b>Some info about protein secretion and why it is important.</b> Donec id elit non mi porta gravida
+                    at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor
+                    mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna
+                    mollis euismod. Donec sed odio dui. </p>
+                <!-- <p><a class="btn btn-secondary" href="#" role="button">View details &raquo;</a></p> -->
+            </div>
+            <div class="col-md-4">
+                <h3>Our model</h3>
+                <p><b>Some info about what dataset we used to train a ML model to predict it.</b> Donec id elit non mi
+                    porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor
+                    mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna
+                    mollis euismod. Donec sed odio dui. </p>
+                <!-- <p><a class="btn btn-secondary" href="#" role="button">View details &raquo;</a></p> -->
+            </div>
+            <div class="col-md-4">
+                <h3>Applications</h3>
+                <p><b>Some info about what you can get with this model or what you can use it for.</b> Donec sed odio
+                    dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula
+                    porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh,
+                    ut fermentum massa justo sit amet risus.</p>
+                <!-- <p><a class="btn btn-secondary" href="#" role="button">View details &raquo;</a></p> -->
+            </div>
+        </div>
+    </div> <!-- /container -->
+
+    <hr>
+
+    <div class="container" id="predictor_container">
+        <div class="row">
+            <div class="col-md-12">
+                <h2>Input sequences</h2>
+                <form method="POST" , action="{{url_for('load_seqs')}}">
+                    <p><b>Enter your sequences of interest.</b> Use FASTA format for DNA or amino acid sequence. You can
+                        paste more than one sequence.</p>
+                    <!-- Use onfocus to remove the text that is initially present in the textarea -->
+                    <textarea rows="10" cols="80" name='seqs' placeholder="Enter sequences here..."></textarea>
+                    <br>
+                    <p><b>Enter additional information (optional).</b> If you have additional data about your proteins
+                        we will use it to improve the prediction accuracy.</p>
+                    <ul>
+                        <li>Isoelectric point (pI): <input type="text" , name='a' , placeholder="enter one value"></li>
+                        <li>Molecular Weight (MW): <input type="text" , name='b' , placeholder="enter one value"> kDa
+                        </li>
+                        <li>Property X: <input type="text" , name='c' , placeholder="enter one value"></li>
+                    </ul>
+                    <input type="submit" , value='Predict'> <input type="reset" , value='Reset'>
+                </form>
+
+
+                <!-- <h2>Input sequences</h2>
+                <p><b>Enter your sequences of interest.</b> Use FASTA format for DNA or amino acid sequence. You can paste more than one sequence.</p>
+                
+                <p><b>Enter additional information (optional).</b> If you have additional data about your proteins we will use it to improve the prediction accuracy. 
+                <form method="POST" , action="{{url_for('load_seqs')}}">
+                    First value: <input type="text" , name='a' , placeholder="enter one value"><br><br>
+                    Second value: <input type="text" , name='b' , placeholder="enter one value"><br><br>
+                    Third value: <input type="text" , name='c' , placeholder="enter one value"><br><br>
+                    <input type="submit" , value='Predict'> <input type="reset", value='Reset'>
+                </form> -->
+            </div>
+        </div>
+    </div>
+
+    <hr>
+
+</main>
+
+<!-- Make the class active on the navbar -->
+<script>
+    var nav_item = document.getElementById("nav_home");
+    nav_item.classList.add("active");
+</script>
+
+{% endblock %}

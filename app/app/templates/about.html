@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block page_title %}LMPM guide{% endblock %}
+{% block content %}
+
+<main role="main">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+
+                <h1>About</h1>
+
+                <p>In construction, come back soon.</p>
+
+
+                <p>Note to editors:</p>
+
+                <p>Explain what the tool is based on (details of the ML model, etc...), similar to
+                    https://www.crisprbehive.design/about</p>
+
+                <p>May include a "team" tab describing the members of the team? Maybe not.</p>
+
+            </div>
+        </div>
+    </div>
+</main>
+
+
+
+<!-- Make the class active on the navbar -->
+<script>
+    var nav_item = document.getElementById("nav_about");
+    nav_item.classList.add("active");
+</script>
+
+{% endblock %}

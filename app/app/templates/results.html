@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block page_title %}LMPM results{% endblock %}
+{% block content %}
+
+<main role="main">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+
+                <h1>Results</h1>
+
+                <p>The input sequence was:</p>
+
+                <code>{{seqs}}</code>
+
+                <p>Your additional data was: {{data}}</p>
+                <ul>
+                    <li>Isoelectric point (pI): {{data[0]}} </li>
+                    <li>Molecular Weight: {{data[1]}} </li>
+                    <li>Property X: {{data[2]}} </li>
+                </ul>
+
+                <p>Your prediction is: {{prediction}}</p>
+
+                <a href='/'>Go back to home page</a>
+
+            </div>
+        </div>
+    </div>
+</main>
+
+
+<!-- Make the class active on the navbar -->
+<script>
+    var nav_item = document.getElementById("nav_home");
+    nav_item.classList.add("active");
+</script>
+
+{% endblock %}
