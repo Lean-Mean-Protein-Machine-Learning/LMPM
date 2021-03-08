@@ -1,13 +1,6 @@
 # Getting started with LMPM
 
-## For users
-
-Here we will write instructions on how to use the module to make predictions for a protein of interest. We will do so when the module is finished.
-
-
-## For developers
-
-### Brief summary HERE - if you want to start working on this fast, read this and forget about the rest
+## Brief summary HERE - if you want to start working on this fast, read this and forget about the rest
 
 1. Clone the repo if you haven't done so:
 
@@ -37,6 +30,13 @@ jupyter notebook
 You can start coding in the /notebooks folder now.
 
 If you have any problem, read in detail the steps below.
+
+## For users
+
+Here we will write instructions on how to use the module to make predictions for a protein of interest. We will do so when the module is finished.
+
+
+## For developers
 
 
 ### 1. Clone the repository
