@@ -4,7 +4,16 @@ import sys
 sys.path.append('../UniRep/')
 
 from unirep_utils import get_UniReps
-params = pd.read_csv('../notebooks/Params.csv')
+
+# Importing dG parameters to params_dict
+params = pd.read_csv('../notebooks/Params.csv', header=None)
+lst = params[0].values
+params.set_index(lst, inplace=True)
+del params[0]
+params_dict = defaultdict(list)
+for i, row in params.iterrows():
+    for position in range(1, len(row) + 1):
+        params_dict[i].append(float(row.loc[position]))
 
 
 def check_sequence_input(sequence):
