@@ -1,10 +1,43 @@
 # Getting started with LMPM
 
+## Brief summary HERE - if you want to start working on this fast, read this and forget about the rest
+
+1. Clone the repo if you haven't done so:
+
+```
+https://github.com/Lean-Mean-Protein-Machine-Learning/LMPM.git
+```
+
+2. Move inside the repo:
+
+```
+cd LMPM
+```
+
+3. Install the environment with jupyter notebook:
+
+```
+conda env create -f environment_dev.yml
+```
+
+4. Load the environment and open jupyter notebook:
+
+```
+conda activate lmpmdev
+jupyter notebook
+```
+
+You can start coding in the /notebooks folder now.
+
+If you have any problem, read in detail the steps below.
+
 ## For users
 
 Here we will write instructions on how to use the module to make predictions for a protein of interest. We will do so when the module is finished.
 
+
 ## For developers
+
 
 ### 1. Clone the repository
 
@@ -69,13 +102,6 @@ To create these environments run:
 conda env create -f environment.yml 
 conda env create -f environment_dev.yml
 conda env create -f environment_bioserv.yml
-```
-
-Those commands should work perfectly on Ubuntu, and probably also on Mac or Windows. However, if you have any trouble due to the operating system, those commands should work and should create identical environments to the ones above:
-
-```
-conda env create -f environment2.yml
-conda env create -f environment_dev2.yml
 ```
 
 Check if you have successfully created the environments by running the following command. You should see a list with your environments including `lmpmenv`, `lmpmdev` and `lmpmbioservices`.
