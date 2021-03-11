@@ -15,14 +15,8 @@ import pandas as pd
 import pickle
 # will also require import sklearn or certain functions of sklearn
 
-# here we import unirep as a submodule
-# from .unirep import get_UniReps
 from unirep.unirep_utils import get_UniReps
-# import the function to load the sequence 
-# that was defined on check_inputs.py
 from check_inputs import check_input
-
-
 
 # Importing dG parameters to params_dict
 params = pd.read_csv('../notebooks/Params.csv', header=None)
