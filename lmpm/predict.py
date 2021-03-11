@@ -32,7 +32,10 @@ for i, row in params.iterrows():
     for position in range(1, len(row) + 1):
         params_dict[i].append(float(row.loc[position]))
 
-
+    # Load trained models
+    model_human = pickle.load((open('../trained_models/model_human')))
+    model_yeast = pickle.load((open('../trained_models/model_yeast')))
+    model_ecoli = pickle.load((open('../trained_models/model_ecoli')))
 
 
 
@@ -48,7 +51,17 @@ def model_organism_selection(organism):
     Returns:
         model: trained model of secretion probabilities for organism
     """
+    # Create dictionary of loaded, trained models
+    model_dict = {
+        'human': model_human,
+        'yeast': model_yeast,
+        'ecoli': model_ecoli
+    }
 
+    # Access the specific organism model
+    model = model_dict(organism)
+
+    return model
 
 
 def secretion_score_unirep(input_seq, organism):
