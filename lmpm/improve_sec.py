@@ -11,7 +11,7 @@ To get a better understanding on python imports, read: https://realpython.com/ab
 """
 
 import sys
-
+import matplotlib as plt
 import numpy as np
 import pandas as pd
 
