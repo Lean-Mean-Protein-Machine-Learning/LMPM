@@ -1,5 +1,7 @@
 # Lean Mean Protein Machine!
 
+[![Build Status](https://travis-ci.com/Lean-Mean-Protein-Machine-Learning/LMPM.svg?branch=main)](https://travis-ci.com/Lean-Mean-Protein-Machine-Learning/LMPM)
+[![Coverage Status](https://coveralls.io/repos/github/Lean-Mean-Protein-Machine-Learning/LMPM/badge.svg)](https://coveralls.io/github/Lean-Mean-Protein-Machine-Learning/LMPM)
 
 <img src='images/LMPM_logo.png' width=250px>
 
