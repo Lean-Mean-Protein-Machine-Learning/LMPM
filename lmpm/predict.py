@@ -64,7 +64,7 @@ def model_organism_selection(organism):
     return model
 
 
-def secretion_score_unirep(input_seq, organism):
+def secretion_score(input_seq, organism, include_dg=False):
     """
     Finds the secretion probability of given sequence based on model
     and UniRep representation only
@@ -86,15 +86,18 @@ def secretion_score_unirep(input_seq, organism):
     # Obtain unirep representation of sequence
     # we use the function we created in check_inputs
     sequence = get_input_seq(input_seq)
-    unirep_values = get_uniReps(sequence)[0] # do we need this [0]?
-    unirep_values = unirep_values.reshape(1, -1)
+    values = get_uniReps(sequence)[0] # do we need this [0]?
+    if include_dg:
+        dg = calculate_transmembrane_dg(sequence)
+        values.append(dg)
+    values = values.reshape(1, -1)
 
     # Returns class of given sequence
-    predicted_class = model.predict(unirep_values)
+    predicted_class = model.predict(values)
 
     # Grab the probabilities from the model
     classes = list(model.classes_)
-    prediction_probabilities = list(model.predict_proba(unirep_values)[0])
+    prediction_probabilities = list(model.predict_proba(values)[0])
 
     # Returns probability of being secreted class
     secretion_score = prediction_probabilities[classes.index('secreted')]

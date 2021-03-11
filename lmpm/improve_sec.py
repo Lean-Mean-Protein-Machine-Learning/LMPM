@@ -18,12 +18,12 @@ import pandas as pd
 # here we need to import the function
 # used to make predictions defined in 
 # predict.py
-from .predict import secretion_score_unirep
+from .predict import secretion_score
 
 
 
 
-def secretion_optimization_unirep(sequence, position, organism):
+def secretion_optimization(sequence, position, organism, include_dg=False):
     """
     Introduces amino acid point mutation at given position to improve
     probability of given sequence to be part of the secreted class
@@ -41,7 +41,7 @@ def secretion_optimization_unirep(sequence, position, organism):
                                     and secretion score
     """
     # First, find the initial class and initial secretion score
-    initial_class, initial_score = secretion_score_unirep(sequence, organism)
+    initial_class, initial_score = secretion_score(sequence, organism, include_dg)
     print('The initial sequence is:', sequence)
     print('The initial localization clas is:', initial_class)
     print('The initial probability of being in the secreted class is:', 
@@ -59,8 +59,8 @@ def secretion_optimization_unirep(sequence, position, organism):
         sequence_list = list(sequence)
         sequence_list[position] = residue
         mutated_sequence = "".join(sequence_list)
-        mutated_class, mutated_score = secretion_score_unirep(
-            sequence, organism)
+        mutated_class, mutated_score = secretion_score(
+            sequence, organism, include_dg)
         mutated_scores_list.append(mutated_score)
         # Replace initial sequence if mutated secretion score is better
         if mutated_score > initial_score:
@@ -93,7 +93,7 @@ def secretion_optimization_all_positions(sequence, organism):
 
 def optimize_secretion(sequence, organism, position):
     """
-    Wraper function.
+    Wrapper function.
 
     It would be great if we added a parameter position that can take in a list of positions
     so the user is free to mutate only one position or a few positions of the sequence. 
