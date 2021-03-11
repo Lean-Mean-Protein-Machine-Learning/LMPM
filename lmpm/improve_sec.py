@@ -15,25 +15,23 @@ import sys
 import numpy as np
 import pandas as pd
 
-# here we need to import the function
-# used to make predictions defined in 
-# predict.py
-from .predict import secretion_score
+from predict import secretion_score
 
 
 
-
-def secretion_optimization(sequence, position, organism, include_dg=False):
+def secretion_optimization(sequence, organism, position, include_dg=False):
     """
     Introduces amino acid point mutation at given position to improve
     probability of given sequence to be part of the secreted class
 
     Args:
         sequence (str): amino acid sequence in single-letter format
-        position (int): given position where point mutations can occur
-                        (where first residue is position 0)
         organism (str): specific organism of sequence type 
                         (all, human, yeast, ecoli)
+        position (int): given position where point mutations can occur
+                        (where first residue is position 0)
+        include_dg (Boolean): specify inclusion of additional features
+                                (default=False)
 
     Returns:
         sequence (str): mutated amino acid sequence

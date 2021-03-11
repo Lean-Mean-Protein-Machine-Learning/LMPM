@@ -16,11 +16,11 @@ import pickle
 # will also require import sklearn or certain functions of sklearn
 
 # here we import unirep as a submodule
-from .unirep import get_UniReps
-
+# from .unirep import get_UniReps
+from unirep.unirep_utils import get_UniReps
 # import the function to load the sequence 
 # that was defined on check_inputs.py
-from .check_inputs import check_input
+from check_inputs import check_input
 
 
 
@@ -34,35 +34,44 @@ for i, row in params.iterrows():
     for position in range(1, len(row) + 1):
         params_dict[i].append(float(row.loc[position]))
 
-    # Load trained models
-    # uncomment to load when they are ready
-    # model_human = pickle.load((open('../trained_models/model_human')))
-    # model_yeast = pickle.load((open('../trained_models/model_yeast')))
-    # model_ecoli = pickle.load((open('../trained_models/model_ecoli')))
+# Load trained models
+model_human = pickle.load(open('../trained_models/human.pkl', 'rb'))
+model_yeast = pickle.load(open('../trained_models/yeast.pkl', 'rb'))
+model_ecoli = pickle.load(open('../trained_models/ecoli.pkl', 'rb'))
 
 
 
 
-def model_organism_selection(organism):
+def model_organism_selection(organism, include_dg=False):
     """
     Imports trained model of secretion scores based on organism data set
 
     Args:
         organism (str): specific organism of sequence type 
                         (all, human, yeast, ecoli)
+        include_dg (Boolean): specify inclusion of additional features
+                                (default=False)
 
     Returns:
         model: trained model of secretion probabilities for organism
     """
     # Create dictionary of loaded, trained models
-    model_dict = {
-        'human': model_human,
-        'yeast': model_yeast,
-        'ecoli': model_ecoli
-    }
+    # Check specification of additional features
+    if include_dg:
+        model_dict = {
+            'human': model_human,
+            'yeast': model_yeast,
+            'ecoli': model_ecoli
+        }
+    else: 
+        model_dict = {
+            'human': model_human,
+            'yeast': model_yeast,
+            'ecoli': model_ecoli
+        }
 
     # Access the specific organism model
-    model = model_dict(organism)
+    model = model_dict[organism]
 
     return model
 
@@ -76,6 +85,8 @@ def secretion_score(input_seq, organism, include_dg=False):
         input_seq (str): sequence entered by the user
         organism (str):  specific organism of sequence type 
                          (all, human, yeast, ecoli)
+        include_dg (Boolean): specify inclusion of additional features
+                                (default=False)
 
     Returns:
         predicted_class (str): predicted class of sequence
@@ -89,7 +100,7 @@ def secretion_score(input_seq, organism, include_dg=False):
     # Obtain unirep representation of sequence
     # we use the function we created in check_inputs
     sequence = check_input(input_seq)
-    values = get_uniReps(sequence)[0] # do we need this [0]?
+    values = get_UniReps(sequence)[0] # do we need this [0]?
     if include_dg:
         dg = calculate_transmembrane_dg(sequence)
         values.append(dg)
