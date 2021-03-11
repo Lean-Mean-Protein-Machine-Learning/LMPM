@@ -1,0 +1,42 @@
+language: python
+
+# may not work for python <3.8 because of pikle change, but we should try anyway
+matrix:
+    include:
+        - python: 3.6
+        - python: 3.7
+        - python: 3.8
+        - python: 3.9
+
+branches:
+    only:
+        - main
+
+# install and load conda
+before_install:
+    - wget -O miniconda.sh https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
+    - chmod +x miniconda.sh
+    - ./miniconda.sh -b
+    - export PATH=/home/travis/miniconda3/bin:$PATH
+    - conda update --yes conda
+        
+# set up the environment
+install:
+    - conda env create -q -n testing-env python=$TRAVIS_PYTHON_VERSION --file environment.yml
+    - source activate testing-env
+    - conda install --yes coverage coveralls flake8 nose
+
+# run this before the main script
+# here to check if code in lmpm module is pep8 compilant
+before_script:
+    - flake8 lmpm
+
+# the commands to run
+# we could also use unittest instead of nose
+script:
+    - coverage run -m nose
+
+# generate a coverage report to send to back to user
+after_success:
+    - coverage report
+    - coveralls

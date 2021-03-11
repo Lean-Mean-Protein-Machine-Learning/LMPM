@@ -24,11 +24,11 @@ from lmpm import optimize_secretion
 
 and use them like:
 
-lmpm.secretion_score_unirep()
+lmpm.secretion_score()
 lmpm.optimize_secretion()
 
 This way the user does not have to worry about the rest of helper functions.
 
 """
-from .predict import secretion_score_unirep
+from .predict import secretion_score
 from .improve_sec import optimize_secretion

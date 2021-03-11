@@ -8,17 +8,19 @@ To get a better understanding on python imports, read: https://realpython.com/ab
 """
 
 import sys
+from collections import defaultdict
 
 import numpy as np
 import pandas as pd
+import pickle
 # will also require import sklearn or certain functions of sklearn
 
 # here we import unirep as a submodule
-from unirep.unirep_utils import get_UniReps
+from .unirep import get_UniReps
 
 # import the function to load the sequence 
 # that was defined on check_inputs.py
-from .check_inputs import get_input_seq
+from .check_inputs import check_input
 
 
 
@@ -33,9 +35,10 @@ for i, row in params.iterrows():
         params_dict[i].append(float(row.loc[position]))
 
     # Load trained models
-    model_human = pickle.load((open('../trained_models/model_human')))
-    model_yeast = pickle.load((open('../trained_models/model_yeast')))
-    model_ecoli = pickle.load((open('../trained_models/model_ecoli')))
+    # uncomment to load when they are ready
+    # model_human = pickle.load((open('../trained_models/model_human')))
+    # model_yeast = pickle.load((open('../trained_models/model_yeast')))
+    # model_ecoli = pickle.load((open('../trained_models/model_ecoli')))
 
 
 
@@ -85,7 +88,7 @@ def secretion_score(input_seq, organism, include_dg=False):
 
     # Obtain unirep representation of sequence
     # we use the function we created in check_inputs
-    sequence = get_input_seq(input_seq)
+    sequence = check_input(input_seq)
     values = get_uniReps(sequence)[0] # do we need this [0]?
     if include_dg:
         dg = calculate_transmembrane_dg(sequence)
@@ -129,7 +132,7 @@ def calculate_transmembrane_dg(sequence):
     # Scans the sequence for every 19-residue frame
     for j in range(len(sequence)-18):
         running_total = 0
-        segment = sequence(j:j+19)
+        segment = sequence[j:j+19]
         for k, amino_acid in enumerate(segment):
             running_total += params_dict[amino_acid][k]
         dg_values.append(running_total)

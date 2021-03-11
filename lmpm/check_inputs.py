@@ -16,8 +16,6 @@
 # * The function also detects if the amino acid input sequence is in a three letter code format. It also checks if the three letter code is all upper case, lower case, or mixed case, and converts the three letter code into the single letter code representation. The fixed sequence is then returned.
 # 
 
-# In[400]:
-
 
 Amino_acids = {'A':'Ala','G':'Gly','I':'Ile','L':'Leu','P':'Pro',
                'V':'Val','F':'Phe','W':'Trp','Y':'Tyr','D':'Asp',
@@ -28,7 +26,10 @@ Amino_acids = {'A':'Ala','G':'Gly','I':'Ile','L':'Leu','P':'Pro',
 
 def Check_string(seq):
     if not isinstance(seq, str):
-        assert False, "Input is not a string"
+        raise ValueError('Input is not a string.')
+    else:
+        pass
+    return None
 
 def Check_length(seq):
     if len(seq) < 2: # the shortest protein is TAL and it is 11 AA's long
@@ -188,7 +189,7 @@ def check_for_three_letter_code(seq):
     else:
         return False 
     
-def Check_input(seq):
+def check_input(seq):
     """ This function is the master function/ wrapper for the check input functions
     """
     Check_string(seq)
@@ -224,6 +225,6 @@ def Check_input(seq):
 
 # seq = seq1
 
-# seq = Check_input(seq)
+# seq = check_input(seq)
 # print("Sequence = "+seq)
 
