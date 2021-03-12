@@ -7,19 +7,20 @@ and (optionally) an organism that the user provides. Returns the probability tha
 To get a better understanding on python imports, read: https://realpython.com/absolute-vs-relative-python-imports/
 """
 
-import sys
+import os, sys
 from collections import defaultdict
+
+print(os.getcwd())
 
 import numpy as np
 import pandas as pd
 import pickle
-# will also require import sklearn or certain functions of sklearn
 
-from unirep.unirep_utils import get_UniReps
-from check_inputs import check_input
+from .unirep import get_UniReps
+from .check_inputs import check_input
 
 # Importing dG parameters to params_dict
-params = pd.read_csv('../notebooks/Params.csv', header=None)
+params = pd.read_csv('./models/Params.csv', header=None)
 lst = params[0].values
 params.set_index(lst, inplace=True)
 del params[0]
@@ -29,9 +30,9 @@ for i, row in params.iterrows():
         params_dict[i].append(float(row.loc[position]))
 
 # Load trained models
-model_human = pickle.load(open('../trained_models/human.pkl', 'rb'))
-model_yeast = pickle.load(open('../trained_models/yeast.pkl', 'rb'))
-model_ecoli = pickle.load(open('../trained_models/ecoli.pkl', 'rb'))
+model_human = pickle.load(open('./models/human.pkl', 'rb'))
+model_yeast = pickle.load(open('./models/yeast.pkl', 'rb'))
+model_ecoli = pickle.load(open('./models/ecoli.pkl', 'rb'))
 
 
 
