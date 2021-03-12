@@ -17,7 +17,7 @@ cd LMPM
 3. Install the environment with jupyter notebook:
 
 ```
-conda env create -f environment_dev.yml
+conda env create -f notebooks/environment_dev.yml
 ```
 
 4. Load the environment and open jupyter notebook:
@@ -30,6 +30,83 @@ jupyter notebook
 You can start coding in the /notebooks folder now.
 
 If you have any problem, read in detail the steps below.
+
+## How to use the lmpm module in jupyter notebooks:
+
+#### Option 1 ("correct"):
+
+The best way to use the lmpm module is installing it from the github repo (even if we have a local copy installed). Activate the environment you are working with and install with pip:
+
+```
+conda activate lmpmdev
+python3 -m pip install git+https://github.com/Lean-Mean-Protein-Machine-Learning/LMPM
+```
+
+If this was successful you should now be able to see the information about this package:
+
+```
+pip show lmpm
+```
+
+Then, you can use it in your notebook as you would use any other module. Note that `unirep` is a submodule of `lmpm`.
+
+```
+from lmpm import secretion_score
+from lmpm import optimize_secretion
+from lmpm.unirep import get_UniReps
+```
+
+**Downside:** If you make any changes to the package and want to apply the changes, you first need to push the changes to github, and reinstall the library again. This is actually not such a bad idea, as you will always be testing the module just like the final user will do.
+
+```
+# update repo first
+git add (add files modified here)
+git commit -m "changes description"
+git push -u origin main
+# now, in the environment you are using, update the lmpm package
+python3 -m pip install lmpm --upgrade
+```
+
+#### Option 2 ("hack hack"):
+
+This is a bit more tricky and I have not tested it as much, but should work anyway.
+
+First you need to get the absolute path of your `LMPM` directory (the one that was created when cloning the repo). For that you should move inside your LMPM directory (`cd LMPM`) and get the absolute path using `pwd`. Copy the line that was printed and copy it to the command below:
+
+In the header of your jupyter notebook, import the location of the lmpm module.
+
+```
+import sys
+sys.path.append(##place here the absolute path of LMPM repository##)
+# in my case, I have LMPM in my home directory, so I use:
+# sys.path.append("~/LMPM/")
+```
+
+Then you can import everything as usual:
+
+```
+from lmpm import secretion_score
+from lmpm import optimize_secretion
+from lmpm.unirep import get_UniReps
+```
+
+I think that if you modify any parts of `lmpm` you need to restart the kernel again so that jupyter gets the changes.
+
+## How to run the tests:
+
+First you need to install nose:
+
+```
+conda activate lmpmdev
+pip install nose
+```
+
+Then, move to the `LMPM` directory and run the `nosetest` command just as it is done below. It will run the tests made on the local version of the module, so you don't need to worry about reinstalling the module as we have to do with the jupyter notebooks.
+
+```
+cd LMPM
+nosetests lmpm
+```
 
 ## For users
 
