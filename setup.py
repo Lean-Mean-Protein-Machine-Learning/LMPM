@@ -31,7 +31,7 @@ setuptools.setup(
     # include_package_data=True, # include data specified in MANIFEST.in
     package_data={
         'lmpm': ['models/*'],
-        'unirep': ['weight_files/*']
+        'lmpm.unirep': ['weight_files/*']
         },
     python_requires=">=3.8", # pickle version used requires >3.8
     install_requires=['pandas','numpy'] # you can also specify version numbers here
