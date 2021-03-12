@@ -17,21 +17,21 @@
 # 
 
 
-Amino_acids = {'A':'Ala','G':'Gly','I':'Ile','L':'Leu','P':'Pro',
+amino_acids = {'A':'Ala','G':'Gly','I':'Ile','L':'Leu','P':'Pro',
                'V':'Val','F':'Phe','W':'Trp','Y':'Tyr','D':'Asp',
                'E':'Glu','R':'Arg','H':'His','K':'Lys','S':'Ser',
                'T':'Thr','C':'Cys','M':'Met','N':'Asn','Q':'Gln',}
 
 
 
-def Check_string(seq):
+def check_string(seq):
     if not isinstance(seq, str):
         raise ValueError('Input is not a string.')
     else:
         pass
     return None
 
-def Check_length(seq):
+def check_length(seq):
     if len(seq) < 2: # the shortest protein is TAL and it is 11 AA's long
         assert False, "The input "+"'"+seq+"'"+" is not an amino acid."
     elif len(seq) >=2 and len(seq) < 11: # the shortest protein is TAL and it is 11 AA's long
@@ -64,12 +64,12 @@ def check_empty(seq):
         
         
          
-def check_bad_chars(seq, Amino_acids):
+def check_bad_chars(seq, amino_acids):
     """ This checks for bad characters in amino acid string.
     """
     bad_characters = []
     for character in seq:
-        if character not in Amino_acids.keys():
+        if character not in amino_acids.keys():
             bad_characters = bad_characters+[character]
         else:
             pass
@@ -106,15 +106,15 @@ def check_for_three_letter_code(seq):
             seq_new = '' 
             
             for AA in AA_list:
-                if AA in Amino_acids.values():
+                if AA in amino_acids.values():
                     
                     # Convert all three letter AA's to single letter AA's
-                    for key, value in Amino_acids.items():
+                    for key, value in amino_acids.items():
                         if AA == value:
                             seq_new += key
                     
-                elif AA not in Amino_acids.values():
-                    bad_characters = check_bad_chars(seq,Amino_acids)  
+                elif AA not in amino_acids.values():
+                    bad_characters = check_bad_chars(seq,amino_acids)  
                     raise_error_bad_char(bad_characters)
                     
             return seq_new 
@@ -132,25 +132,25 @@ def check_for_three_letter_code(seq):
             seq_new = ''
             
             for AA in AA_list:
-                if AA in {v.upper() for v in Amino_acids.values()}: # Checking if input is 3 letter upper case
+                if AA in {v.upper() for v in amino_acids.values()}: # Checking if input is 3 letter upper case
                     # Convert all three letter AA's to single letter AA's
-                    for key, value in Amino_acids.items():
+                    for key, value in amino_acids.items():
                         if AA == value.upper():
                             seq_new += key
                             
-                elif AA not in Amino_acids.values():
-                    bad_characters = check_bad_chars(seq,Amino_acids)
+                elif AA not in amino_acids.values():
+                    bad_characters = check_bad_chars(seq,amino_acids)
                     if bad_characters == []:
                         return seq
                         break
                     else:
                         raise_error_bad_char(bad_characters)
             
-            bad_characters = check_bad_chars(seq_new,Amino_acids)  
+            bad_characters = check_bad_chars(seq_new,amino_acids)  
             raise_error_bad_char(bad_characters)
             return seq_new  
         
-        bad_characters = check_bad_chars(seq,Amino_acids)  
+        bad_characters = check_bad_chars(seq,amino_acids)  
         raise_error_bad_char(bad_characters)
         return False       
             
@@ -165,26 +165,26 @@ def check_for_three_letter_code(seq):
             seq_new = ''
             
             for AA in AA_list:
-                if AA in {v.lower() for v in Amino_acids.values()}: # Checking if input is 3 letter lower case
+                if AA in {v.lower() for v in amino_acids.values()}: # Checking if input is 3 letter lower case
                     # Convert all three letter AA's to single letter AA's
-                    for key, value in Amino_acids.items():
+                    for key, value in amino_acids.items():
                         if AA == value.lower():
                             seq_new += key
                             
-                elif AA not in {v.lower() for v in Amino_acids.values()}:
+                elif AA not in {v.lower() for v in amino_acids.values()}:
                     seq = seq.upper
-                    bad_characters = check_bad_chars(seq,Amino_acids)
+                    bad_characters = check_bad_chars(seq,amino_acids)
                     if bad_characters == []:
                         return seq
                         break
                     else:
                         raise_error_bad_char(bad_characters)
             
-            bad_characters = check_bad_chars(seq_new,Amino_acids)  
+            bad_characters = check_bad_chars(seq_new,amino_acids)  
             raise_error_bad_char(bad_characters)
             return seq_new  
         
-        bad_characters = check_bad_chars(seq,Amino_acids)  
+        bad_characters = check_bad_chars(seq,amino_acids)  
         raise_error_bad_char(bad_characters)
     else:
         return False 
@@ -192,8 +192,8 @@ def check_for_three_letter_code(seq):
 def check_input(seq):
     """ This function is the master function/ wrapper for the check input functions
     """
-    Check_string(seq)
-    Check_length(seq)
+    check_string(seq)
+    check_length(seq)
     check_empty(seq)
 
     output = ''
@@ -201,7 +201,7 @@ def check_input(seq):
     output
     if output != False:
         seq = output
-        bad_characters = check_bad_chars(seq,Amino_acids)  
+        bad_characters = check_bad_chars(seq,amino_acids)  
         raise_error_bad_char(bad_characters)
     else:
         pass

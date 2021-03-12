@@ -39,7 +39,7 @@ model_ecoli = pickle.load(open(os.path.join(current_wd,"models","ecoli.pkl"), 'r
 
 
 
-def model_organism_selection(organism, include_dg=False):
+def model_organism_selection(organism, include_dg):
     """
     Imports trained model of secretion scores based on organism data set
 
@@ -73,26 +73,35 @@ def model_organism_selection(organism, include_dg=False):
     return model
 
 
-def secretion_score(input_seq, organism, include_dg=False):
+def secretion_score(input_seq, organism, target_class='secreted', include_dg=False):
     """
-    Finds the secretion probability of given sequence based on model
-    and UniRep representation only
+    Finds the probability of being the target class given the
+    sequence based on model and UniRep representation only
 
     Args:
         input_seq (str): sequence entered by the user
         organism (str):  specific organism of sequence type 
                          (all, human, yeast, ecoli)
+        target_class (str): class to predict the probability
+                            (secreted (default), cytoplasm, or membrane)
         include_dg (Boolean): specify inclusion of additional features
                                 (default=False)
 
     Returns:
         predicted_class (str): predicted class of sequence
                         (cytoplasm, membrane, secreted)
-        secretion_score (float): probability of sequence being 
-                                    in secreted class
+        target_score (float): probability of sequence being 
+                            in target class
     """
+
+    # target class should be one of the classes of the model
+    if target_class not in ['secreted', 'membrane', 'cytoplasm']:
+        raise ValueError('The selected probability was: "'+str(target_class)+'", but should be either secreted, membrane or cytoplasm')
+    else:
+        pass
+
     # Select the model based on the organism
-    model = model_organism_selection(organism)
+    model = model_organism_selection(organism, include_dg)
 
     # Obtain unirep representation of sequence
     # we use the function we created in check_inputs
@@ -111,7 +120,7 @@ def secretion_score(input_seq, organism, include_dg=False):
     prediction_probabilities = list(model.predict_proba(values)[0])
 
     # Returns probability of being secreted class
-    secretion_score = prediction_probabilities[classes.index('secreted')]
+    secretion_score = prediction_probabilities[classes.index(target_class)]
     
     return predicted_class, secretion_score
 
