@@ -14,7 +14,7 @@ import numpy as np
 import pandas as pd
 import pickle
 
-from unirep import get_UniReps
+from .unirep import get_UniReps
 from .check_inputs import check_input
 
 
@@ -96,7 +96,7 @@ def secretion_score(input_seq, organism, include_dg=False):
 
     # Obtain unirep representation of sequence
     # we use the function we created in check_inputs
-    check_input(input_seq)
+    sequence = check_input(input_seq)
     values = get_UniReps(sequence)[0] # do we need this [0]?
     if include_dg:
         dg = calculate_transmembrane_dg(sequence)

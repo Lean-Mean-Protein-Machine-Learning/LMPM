@@ -15,7 +15,7 @@ import matplotlib as plt
 import numpy as np
 import pandas as pd
 
-from predict import secretion_score
+from .predict import secretion_score
 
 
 
