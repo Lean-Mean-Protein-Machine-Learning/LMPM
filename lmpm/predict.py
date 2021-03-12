@@ -93,7 +93,7 @@ def secretion_score(input_seq, organism, include_dg=False):
 
     # Obtain unirep representation of sequence
     # we use the function we created in check_inputs
-    sequence = check_input(input_seq)
+    check_input(input_seq)
     values = get_UniReps(sequence)[0] # do we need this [0]?
     if include_dg:
         dg = calculate_transmembrane_dg(sequence)
@@ -129,7 +129,7 @@ def calculate_transmembrane_dg(sequence):
                             less than 19 residues')
 
     # Next, check if there are any ambiguous amino acids
-    ambiguous_amino_acids(sequence)
+    check_input(sequence)
 
     # Starts dG calculations
     dg_values = []
