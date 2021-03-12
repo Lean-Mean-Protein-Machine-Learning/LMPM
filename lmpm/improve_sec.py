@@ -10,16 +10,51 @@ with colors indicating better probability for the target secretion location or w
 To get a better understanding on python imports, read: https://realpython.com/absolute-vs-relative-python-imports/
 """
 
-import sys
-import matplotlib as plt
 import numpy as np
 import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
 
-from .predict import secretion_score
+from .predict import localization_score
 
+amino_acids = ['G', 'A', 'L', 'M', 'F',
+               'W', 'K', 'Q', 'E', 'S',
+               'P', 'V', 'I', 'C', 'Y',
+               'H', 'R', 'N', 'D', 'T']
 
+def get_residue_positions(positions):
+    """Converts a list of integers or range of residues to individual residue numbers.
+    
+    Args:
+        positions: list of protein residues as integers or ranges.
+            Example: [1,3-5,8]
+            
+    Returns:
+        res_posit: list of individual residues.
+            Example: [1,3,4,5,8]
+    """
+    
+    # initialize list
+    res_posit = np.array([])
+    
+    for item in positions:
+        # split if contains a "-"
+        item = np.array(item.split('-'), dtype='int')
+        # if it contains a "-" the length will be 2
+        if len(item) == 2:
+            # create a range of integers from lower to higher value
+            res_posit = np.append(res_posit, list(range(item[0], item[1]+1)))
+        elif len(item) == 1:
+            res_posit = np.append(res_posit, item)
+        else:
+            raise ValueError('The position should be a list of integers or ranges defined as: "integer-integer"')
+    
+    res_posit = np.array(np.unique(np.sort(res_posit)), dtype='int')
+    
+    return res_posit
 
-def secretion_optimization(sequence, organism, position, include_dg=False):
+# wrapper function
+def optimize_sequence(sequence, organism, target_class, include_dg=False, positions=None):
     """
     Introduces amino acid point mutation at given position to improve
     probability of given sequence to be part of the secreted class
@@ -28,74 +63,64 @@ def secretion_optimization(sequence, organism, position, include_dg=False):
         sequence (str): amino acid sequence in single-letter format
         organism (str): specific organism of sequence type 
                         (all, human, yeast, ecoli)
-        position (int): given position where point mutations can occur
-                        (where first residue is position 0)
+        target_class (str): class of interest to optimize the sequence
+                        (cytoplasm, membrane, secreted)
         include_dg (Boolean): specify inclusion of additional features
                                 (default=False)
+        positions (list): given position where point mutations can occur
+                         (where first residue is position 1), example:
+                         ['5','7-9',12]
 
     Returns:
-        sequence (str): mutated amino acid sequence
-        point_mutation_dict (dict): dictionary of point mutation amino acid
-                                    and secretion score
+        mutated_scores (pd.DataFrame): localization scores for each mutation
+                        at each position
     """
-    # First, find the initial class and initial secretion score
-    initial_class, initial_score = secretion_score(sequence, organism, include_dg)
-    print('The initial sequence is:', sequence)
-    print('The initial localization clas is:', initial_class)
-    print('The initial probability of being in the secreted class is:', 
-        initial_score)
+    # First, find the initial class and initial secretion score for that class
+    initial_class, initial_score = secretion_score(sequence, organism, target_class, include_dg)
+    # Also find the probability of being from the target_class
+#     print('The initial sequence is:', sequence)
+#     print('The initial localization clas is:', initial_class)
+#     print('The initial probability of being in the secreted class is:', 
+#         initial_score)
+    
+    
+    # if no position was specified mutate all
+    if positions == None:
+        res_poses = np.array(list(range(0,len(sequence))))
+    else:
+        # create test to check if position is a list
+        res_poses = get_residue_positions(positions)
+        # inform user that positions are 1 based so that they can usually work on that from a pdb file
+        # convert positions to 0 based positions
+        res_poses = res_poses - 1
+        
+        # check if largest position is within the protein length
+        if np.max(res_poses)+1 > len(sequence):
+            raise ValueError('You passed residue position '+str(np.max(res_poses)+1)+', which is larger than the protein length of '+str(len(sequence))+' residues.')
+        else:
+            pass
 
-    # Define list of amino acids
-    amino_acids = ['G', 'A', 'L', 'M', 'F', 
-                    'W', 'K', 'Q', 'E', 'S', 
-                    'P', 'V', 'I', 'C', 'Y', 
-                    'H', 'R', 'N', 'D', 'T']
+    mutated_scores = pd.DataFrame()
+    
+    for resid in res_poses:
+#         print("running position", resid, "of", str(np.max(res_poses)))
+        
+        mut_score_pos = []
+        
+        for mutation in amino_acids:
+            mutated_seq = sequence[:resid] + str(mutation) + sequence[resid+1:]
+#             pred_score = 3
+            pred_class, pred_score = secretion_score(mutated_seq, organism, target_class, include_dg)
+            mut_score_pos.append(pred_score)
+        
+        mut_score_pos = pd.Series(mut_score_pos, index = amino_acids)
+        
+        original_name = str(sequence[resid]) + '_' + str(resid)
+        
+        mutated_scores[original_name] = mut_score_pos
 
-    # Set up point mutations
-    mutated_scores_list = []
-    for residue in amino_acids:
-        sequence_list = list(sequence)
-        sequence_list[position] = residue
-        mutated_sequence = "".join(sequence_list)
-        mutated_class, mutated_score = secretion_score(
-            sequence, organism, include_dg)
-        mutated_scores_list.append(mutated_score)
-        # Replace initial sequence if mutated secretion score is better
-        if mutated_score > initial_score:
-            sequence = mutated_sequence
-            initial_score = mutated_score
-            initial_class = mutated_class
-
-    print('The mutated sequence is:', sequence)
-    print('The mutated class is:', initial_class)
-    print('The mutated probability of being in the secreted class is:',
-        mutated_score)
-
-    # Plot point mutations and scores
-    plt.plot(amino_acids, mutated_scores_list)
-    plt.xlabel('Amino Acid Point Mutation at Position %d' % position)
-    plt.ylabel('Probability of Secretion Class')
-
-    # Create dictionary of point mutations and scores
-    point_mutation_dict = {amino_acids[i]: mutated_scores_list[i]
-        for i in range(len(amino_acids))}
-
-    return sequence, point_mutation_dict
-
-
-def secretion_optimization_all_positions(sequence, organism):
-    """
-    create ssm like representation
-    """
-
-
-def optimize_secretion(sequence, organism, position):
-    """
-    Wrapper function.
-
-    It would be great if we added a parameter position that can take in a list of positions
-    so the user is free to mutate only one position or a few positions of the sequence. 
-    If nothing is passed, we mutate all sequence.
-
-    """
-
+    # an alternative would be returning the relative increment
+    sns.heatmap(mutated_scores-initial_score, annot=False)
+    plt.show()
+    
+    return mutated_scores
