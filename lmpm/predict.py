@@ -113,7 +113,7 @@ def secretion_score(input_seq, organism, target_class='secreted', include_dg=Fal
     values = values.reshape(1, -1)
 
     # Returns class of given sequence
-    predicted_class = model.predict(values)
+    predicted_class = model.predict(values)[0]
 
     # Grab the probabilities from the model
     classes = list(model.classes_)
@@ -125,7 +125,7 @@ def secretion_score(input_seq, organism, target_class='secreted', include_dg=Fal
     return predicted_class, secretion_score
 
 
-def calculate_transmembrane_dg(sequence):
+def calculate_transmembrane_dg(seq):
     """
     Calculates the free energy of transmembrane insertion of the sequence
 
@@ -136,12 +136,13 @@ def calculate_transmembrane_dg(sequence):
         transmembrane_dG (float): free energy calculation
     """
     # First, make sure the sequence is longer than 19 residues
-    if sequence < 19:
+    if len(seq) < 19:
         raise ValueError('dG cannot be computed on sequences \
                             less than 19 residues')
 
     # Next, check if there are any ambiguous amino acids
-    check_input(sequence)
+    # also convert to appropiate format if it was provided in 3 letter code
+    sequence = check_input(seq)
 
     # Starts dG calculations
     dg_values = []
