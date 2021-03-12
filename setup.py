@@ -27,7 +27,10 @@ setuptools.setup(
     # packages=["lmpm", "lmpm/unirep"]
     packages=setuptools.find_packages(), #discover lmpm and subpackages in lmpm folder
     package_dir={"": "."}, # root package is current package so that it finds lmpm package
-    package_data={"", ["*.pkl","*.csv","*.npy"]}, # if any package contains csv, npy, or pkl files include them
+    package_data={"": ["*.pkl", "*.csv", "*.npy"]}, # if any package contains csv, npy, or pkl files include them
     python_requires=">=3.8", # pickle version used requires >3.8
     install_requires=['pandas','numpy'] # you can also specify version numbers here
 )
+
+    package_data={"": ["*.txt", "*.rst"],"hello": ["*.msg"],
+    }
