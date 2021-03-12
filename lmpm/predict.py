@@ -73,7 +73,7 @@ def model_organism_selection(organism, include_dg):
     return model
 
 
-def secretion_score(input_seq, organism, target_class='secreted', include_dg=False):
+def localization_score(input_seq, organism, target_class='secreted', include_dg=False):
     """
     Finds the probability of being the target class given the
     sequence based on model and UniRep representation only
@@ -120,9 +120,9 @@ def secretion_score(input_seq, organism, target_class='secreted', include_dg=Fal
     prediction_probabilities = list(model.predict_proba(values)[0])
 
     # Returns probability of being secreted class
-    secretion_score = prediction_probabilities[classes.index(target_class)]
+    target_class_score = prediction_probabilities[classes.index(target_class)]
     
-    return predicted_class, secretion_score
+    return predicted_class, target_class_score
 
 
 def calculate_transmembrane_dg(seq):

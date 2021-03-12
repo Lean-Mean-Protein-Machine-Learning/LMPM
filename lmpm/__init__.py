@@ -30,5 +30,5 @@ lmpm.optimize_secretion()
 This way the user does not have to worry about the rest of helper functions.
 
 """
-from .predict import secretion_score
+from .predict import localization_score
 from .improve_sec import optimize_secretion
