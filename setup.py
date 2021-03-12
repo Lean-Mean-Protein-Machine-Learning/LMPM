@@ -24,8 +24,8 @@ setuptools.setup(
         "Operating System :: OS Independent",
         "Intended Audience :: Science/Research",
     ],
-    package_dir={"": "lmpm"}, # root package on lmpm folder
-    packages=setuptools.find_packages(where="lmpm"), #discover subpackages in lmpm folder
+    package_dir={"": "."}, # root package is current package so that it finds lmpm package
+    packages=setuptools.find_packages(where="lmpm"), #discover lmpm and subpackages in lmpm folder
     python_requires=">=3.8", # pickle version used requires >3.8
     install_requires=['pandas','numpy'] # you can also specify version numbers here
 )
