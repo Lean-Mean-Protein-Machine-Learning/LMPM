@@ -10,17 +10,19 @@ To get a better understanding on python imports, read: https://realpython.com/ab
 import os, sys
 from collections import defaultdict
 
-print(os.getcwd())
-
 import numpy as np
 import pandas as pd
 import pickle
 
-from .unirep import get_UniReps
+from unirep import get_UniReps
 from .check_inputs import check_input
 
+
+# get current path to load files as relative paths later
+current_wd = os.path.dirname(os.path.abspath(__file__))
+# using os.path.join to avoid issues across OS using different backslash symbols
 # Importing dG parameters to params_dict
-params = pd.read_csv('./models/Params.csv', header=None)
+params = pd.read_csv(os.path.join(current_wd,"models","Params.csv"), header=None)
 lst = params[0].values
 params.set_index(lst, inplace=True)
 del params[0]
@@ -30,9 +32,9 @@ for i, row in params.iterrows():
         params_dict[i].append(float(row.loc[position]))
 
 # Load trained models
-model_human = pickle.load(open('./models/human.pkl', 'rb'))
-model_yeast = pickle.load(open('./models/yeast.pkl', 'rb'))
-model_ecoli = pickle.load(open('./models/ecoli.pkl', 'rb'))
+model_human = pickle.load(open(os.path.join(current_wd,"models","human.pkl"), 'rb'))
+model_yeast = pickle.load(open(os.path.join(current_wd,"models","yeast.pkl"), 'rb'))
+model_ecoli = pickle.load(open(os.path.join(current_wd,"models","ecoli.pkl"), 'rb'))
 
 
 
