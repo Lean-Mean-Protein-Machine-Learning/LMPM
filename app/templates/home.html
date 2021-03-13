@@ -56,8 +56,24 @@
                 <form method="POST" , action="{{url_for('load_seqs')}}">
                     <p><b>Enter your sequences of interest.</b> Use FASTA format for DNA or amino acid sequence. You can
                         paste more than one sequence.</p>
-                    <!-- Use onfocus to remove the text that is initially present in the textarea -->
-                    <textarea rows="10" cols="80" name='seqs' placeholder="Enter sequences here..."></textarea>
+                    <div class="col-md-9">
+                    <textarea rows="10" style="min-width: 100%" name='seqs' placeholder="Enter sequences here..."></textarea>
+                    </div>
+                    <br>
+                    <p><b>Select organism of interest:</b> If you have additional data about your proteins
+                        we will use it to improve the prediction accuracy.</p>
+                       
+                    <ul id="organism_select" style="list-style-type:none;">
+                        <li>
+                            <input type="radio" name="gender" value="human" checked><label for="human"><i>Homo sapiens</i></label>
+                        </li>
+                        <li>
+                            <input type="radio" name="gender" value="yeast"><label for="yeast"><i>Saccharomyces cerevisiae</i></label>
+                        </li>
+                        <li>
+                            <input type="radio" name="gender" value="ecoli"><label for="ecoli"><i>Escherichia coli</i></label>
+                        </li>
+                    </ul> 
                     <br>
                     <p><b>Enter additional information (optional).</b> If you have additional data about your proteins
                         we will use it to improve the prediction accuracy.</p>
