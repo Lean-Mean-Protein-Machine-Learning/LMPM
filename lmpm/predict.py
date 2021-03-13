@@ -109,7 +109,8 @@ def localization_score(input_seq, organism, target_class='secreted', include_dg=
     values = get_UniReps(sequence)[0] # do we need this [0]?
     if include_dg:
         dg = calculate_transmembrane_dg(sequence)
-        values.append(dg)
+        dg_standardized = (dg - 2.053619) / (2.300432 ** 2)
+        values.append(dg_standardized)
     values = values.reshape(1, -1)
 
     # Returns class of given sequence
