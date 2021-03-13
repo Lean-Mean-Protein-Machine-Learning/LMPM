@@ -3,10 +3,12 @@ import os, sys
 from flask import Flask, render_template, request
 import numpy as np
 
-# only for local development append path to your working directory (change it depending on your user)
-# sys.path.append('/home/mexposit/LMPM/')
+# append this path so that the lmpm module is found
+# another option would be installing it with pip, but for debugging this is faster
+sys.path.append('/')
 import lmpm
-from lmpm import submodule_ex
+import lmpm.unirep as unirep
+
 ##Alternative
 ## import lmpm.submodule_ex as submod
 
@@ -25,7 +27,12 @@ def load_seqs():
     data3 = request.form['c']
     data_arr = np.array([data1, data2, data3])
     pred = np.random.random(1)
-    return render_template('results.html', data=data_arr, prediction = pred, seqs=seqs, seq_length=lmpm.seq_length(seqs), first_char=submodule_ex.first_char(seqs))
+    try:
+        prediction = lmpm.localization_score(seqs,'ecoli')
+    except Exception as e:
+        return render_template("input_error.html", error=e)
+
+    return render_template('results.html', data=data_arr, prediction = pred, seqs=seqs, uni_reps=unirep.get_UniReps(seqs), first_char=prediction)
 
 
 @app.route('/guide')
@@ -36,9 +43,14 @@ def get_guide():
 def get_about():
     return render_template('about.html')
 
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('404.html')
+
 if __name__ == "__main__":
     # use this when running in the website
-    port = int(os.environ.get('PORT', 5000))
-    app.run(host='0.0.0.0', port = port)
-    # this is used if you run it as flask app to debug
-    # app.run(debug=True)
+    # port = int(os.environ.get('PORT', 5000))
+    # app.run(host='0.0.0.0', port = port)
+    # this is used if you run it as flask app to debug (Specifying port explicity lis important in this case)
+    app.run(debug=True,host='0.0.0.0',port=5000)
+    app.run(debug=True)
