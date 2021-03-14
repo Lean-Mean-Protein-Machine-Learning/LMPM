@@ -51,7 +51,7 @@ pip show lmpm
 Then, you can use it in your notebook as you would use any other module. Note that `unirep` is a submodule of `lmpm`.
 
 ```
-from lmpm import secretion_score
+from lmpm import localization_score
 from lmpm import optimize_secretion
 from lmpm.unirep import get_UniReps
 ```
