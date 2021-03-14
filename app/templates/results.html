@@ -3,35 +3,175 @@
 {% block content %}
 
 <main role="main">
+    <div id="accordion">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+
+                    <h1>Results</h1>
+
+                    <p>The input sequence is:</p>
+
+                    <p><code>{{seqs}}</code></p>
+
+                    <p>The length of this sequence is:</p>
+
+                    <p><code>{{uni_reps}}</code></p>
+
+                    <p>The first character of this sequence is:</p>
+
+                    <p><code>{{first_char}}</code></p>
+
+                    <p>Your additional data is: {{data}}</p>
+                    <ul>
+                        <li>Isoelectric point (pI): {{data[0]}} </li>
+                        <li>Molecular Weight: {{data[1]}} </li>
+                        <li>Property X: {{data[2]}} </li>
+                    </ul>
+
+                    <p>Your prediction is: {{prediction}}</p>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="container">
         <div class="row">
             <div class="col-md-12">
+                <div id="accordion">
+                    <div class="card">
+                        <div class="card-header" id="headingOne">
+                            <h5 class="mb-0">
+                                <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseOne"
+                                    aria-expanded="false" aria-controls="collapseOne">
+                                    Mutate sequence to improve localization score:
+                                </button>
+                            </h5>
+                        </div>
 
-                <h1>Results</h1>
+                        <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+                            <div class="card-body">
+                                <!-- <form method="POST" , action="{{url_for('load_seqs')}}">
+                                <p><b>Select organism of interest:</b>
+            
+                                <ul id="organism_select" class="list-group list-group-horizontal">
+                                    <li class="list-group-item">
+                                        <input type="radio" name="species" value="human" checked><label for="human"><i>Homo
+                                                sapiens</i></label>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <input type="radio" name="species" value="yeast"><label for="yeast"><i>Saccharomyces
+                                                cerevisiae</i></label>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <input type="radio" name="species" value="ecoli"><label for="ecoli"><i>Escherichia
+                                                coli</i></label>
+                                    </li>
+                                </ul>
 
-                <p>The input sequence is:</p>
+                                <br>
 
-                <p><code>{{seqs}}</code></p>
+                                <p><b>Select location of interest:</b>
+                                <ul id="location_select" style="list-style-type:none;" class="list-group list-group-horizontal">
+                                    <li class="list-group-item">
+                                        <input type="radio" name="location" value="cytoplasm" checked><label for="cytoplasm">Cytoplasm</label>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <input type="radio" name="location" value="membrane"><label for="membrane">Membrane</label>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <input type="radio" name="location" value="secreted"><label for="secreted">Secreted</label>
+                                    </li>
+                                </ul>
+
+                                <br>
+
+                                <input type="submit" , value='Predict'> <input type="reset" , value='Reset'>
+                            </form> -->
+
+                                <form method="POST" , action="{{url_for('mutate')}}">
+
+                                    <div class="form-group">
+                                        <label for="seqs"><b>Input sequence</b> (same as before by default):</label>
+                                        <textarea class="form-control" name='seqs' id="seqs" rows="4">{{seqs}}</textarea>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <p><b>Select organism of interest:</b></p>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="species" value="human"
+                                                id="human" checked>
+                                            <label class="form-check-label" for="human"><i>Homo sapiens</i></label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="species" value="yeast"
+                                                id="yeast">
+                                            <label class="form-check-label" for="yeast"><i>Saccharomyces cerevisiae</i></label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="species" value="ecoli"
+                                                id="ecoli">
+                                            <label class="form-check-label" for="ecoli"><i>Escherichia coli</i></label>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <p><b>Select localization of interest:</b></p>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="location"
+                                                value="cytoplasm" id="cytoplasm" checked>
+                                            <label class="form-check-label" for="cytoplasm">Cytoplasm</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="location"
+                                                value="membrane" id="membrane">
+                                            <label class="form-check-label" for="membrane">Membrane</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="location"
+                                                value="secreted" id="secreted">
+                                            <label class="form-check-label" for="secreted">Secreted</label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input" type="checkbox" name="add_feat"
+                                                id="add_feat" value="add_feat">
+                                            <label class="form-check-label" for="add_feat">Include additional
+                                                features</label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <input class="btn btn-primary" type="submit" value="Predict">
+                                        <input class="btn btn-outline-primary" type="reset" value="Reset">
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <!-- <h2>Input sequences</h2>
+                <p><b>Enter your sequences of interest.</b> Use FASTA format for DNA or amino acid sequence. You can paste more than one sequence.</p>
                 
-                <p>The length of this sequence is:</p>
+                <p><b>Enter additional information (optional).</b> If you have additional data about your proteins we will use it to improve the prediction accuracy. 
+                <form method="POST" , action="{{url_for('load_seqs')}}">
+                    First value: <input type="text" , name='a' , placeholder="enter one value"><br><br>
+                    Second value: <input type="text" , name='b' , placeholder="enter one value"><br><br>
+                    Third value: <input type="text" , name='c' , placeholder="enter one value"><br><br>
+                    <input type="submit" , value='Predict'> <input type="reset", value='Reset'>
+                </form> -->
+            </div>
+        </div>
+    </div>
 
-                <p><code>{{uni_reps}}</code></p>
-                
-                <p>The first character of this sequence is:</p>
-
-                <p><code>{{first_char}}</code></p>
-                
-                <p>Your additional data is: {{data}}</p>
-                <ul>
-                    <li>Isoelectric point (pI): {{data[0]}} </li>
-                    <li>Molecular Weight: {{data[1]}} </li>
-                    <li>Property X: {{data[2]}} </li>
-                </ul>
-
-                <p>Your prediction is: {{prediction}}</p>
-
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
                 <a href='/'>Go back to home page</a>
-
             </div>
         </div>
     </div>

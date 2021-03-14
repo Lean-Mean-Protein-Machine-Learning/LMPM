@@ -6,3 +6,7 @@ body {
 #organism_select label {
     margin-left: +5px;
   }
+
+#location_select label {
+     margin-left: +5px;
+  }

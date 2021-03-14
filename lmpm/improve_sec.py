@@ -13,6 +13,7 @@ To get a better understanding on python imports, read: https://realpython.com/ab
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
+import matplotlib.colors as colors
 import seaborn as sns
 
 from .predict import localization_score
@@ -56,32 +57,17 @@ def get_residue_positions(positions):
 # wrapper function
 def optimize_sequence(sequence, organism, target_class, include_dg=False, positions=None):
     """
-    Introduces amino acid point mutation at given position to improve
-    probability of given sequence to be part of the secreted class
-
-    Args:
-        sequence (str): amino acid sequence in single-letter format
-        organism (str): specific organism of sequence type 
-                        (all, human, yeast, ecoli)
-        target_class (str): class of interest to optimize the sequence
-                        (cytoplasm, membrane, secreted)
-        include_dg (Boolean): specify inclusion of additional features
-                                (default=False)
-        positions (list): given position where point mutations can occur
-                         (where first residue is position 1), example:
-                         ['5','7-9',12]
-
-    Returns:
-        mutated_scores (pd.DataFrame): localization scores for each mutation
-                        at each position
+    
     """
     # First, find the initial class and initial secretion score for that class
-    initial_class, initial_score = secretion_score(sequence, organism, target_class, include_dg)
+    initial_class, initial_score = localization_score(sequence, organism, target_class, include_dg)
     # Also find the probability of being from the target_class
 #     print('The initial sequence is:', sequence)
 #     print('The initial localization clas is:', initial_class)
 #     print('The initial probability of being in the secreted class is:', 
 #         initial_score)
+    
+    # set a maximum of positions with time and plot maximum considerations
     
     
     # if no position was specified mutate all
@@ -110,7 +96,7 @@ def optimize_sequence(sequence, organism, target_class, include_dg=False, positi
         for mutation in amino_acids:
             mutated_seq = sequence[:resid] + str(mutation) + sequence[resid+1:]
 #             pred_score = 3
-            pred_class, pred_score = secretion_score(mutated_seq, organism, target_class, include_dg)
+            pred_class, pred_score = localization_score(mutated_seq, organism, target_class, include_dg)
             mut_score_pos.append(pred_score)
         
         mut_score_pos = pd.Series(mut_score_pos, index = amino_acids)
@@ -119,8 +105,36 @@ def optimize_sequence(sequence, organism, target_class, include_dg=False, positi
         
         mutated_scores[original_name] = mut_score_pos
 
-    # an alternative would be returning the relative increment
-    sns.heatmap(mutated_scores-initial_score, annot=False)
-    plt.show()
+    return mutated_scores, initial_score
+
+
+# better shape hopefully
+def plot_optimization(mutated_scores, initial_score, dpi=100):
     
-    return mutated_scores
+    relative_sc = mutated_scores - initial_score
+    # set width between 8 and 18 depending on number of positions
+    # if the maximum is passed, the x axis labels will overlap
+    width = np.minimum(np.maximum(int(8*mutated_scores.shape[1]/28),8),18)
+    # to have 0 centered color bar get maximum value in dataset
+    max_sc = np.max(np.abs(relative_sc.values))
+    
+    fig, ax = plt.subplots(1, 1, figsize=(width,6), dpi=dpi)
+
+    pcm = ax.pcolormesh(mutated_scores.columns, mutated_scores.index,
+                        relative_sc.values, shading='nearest',
+                        norm=colors.Normalize(vmin=-max_sc, vmax=max_sc),
+                        cmap='bwr')
+    fig.colorbar(pcm, ax=ax, extend='both')
+    # ax.set_xticklabels(labels, rotation=45, ha='right')
+    # ax.set_xticklabels(ax.get_xticks(), rotation=90)
+    ax.set_xticklabels(mutated_scores.columns, rotation=90)
+    
+    # to try to remove warning
+#     ticks_loc = mutated_scores.columns.tolist()
+#     ax.xaxis.set_major_locator(mticker.FixedLocator(ticks_loc))
+#     ax.set_xticklabels([x for x in ticks_loc])
+    ax.set_xlabel('Position and original amino acid')
+    ax.set_ylabel('Mutation')
+
+    # plt.show()
+    return fig
