@@ -5,12 +5,15 @@
 <main role="main">
     <div id="accordion">
         <div class="container">
-            <div class="row">
+            <div class="row pt-5">
                 <div class="col-md-12">
 
                     <h1>Results</h1>
 
-                    <p>The input sequence is:</p>
+                    <p>The probability of being in the <code>{{pred.query['location']}}</code> on <code>{{pred.query['organism']}}</code> for your input sequence is of <code>{{pred.result*100}}%</code>.</p>
+
+                    <!-- If target class no es igual a la predicted retornar la més frequent -->
+                    <p>The predicted location for this protein on <code>{{pred.query['organism']}}</code> is <code>{{pred.predicted_loc}}</code> with a probability of <code>{{pred.predicted_prob*100}}%</code>.</p>
 
                     <p><code>{{seqs}}</code></p>
 
