@@ -63,7 +63,7 @@ def optimize_sequence(sequence, organism, target_class, include_dg=False, positi
     
     """
     # First, find the initial class and initial secretion score for that class
-    initial_class, initial_score = localization_score(sequence, organism, target_class, include_dg)
+    initial_score = predict_loc_simple(sequence, organism, target_class, include_dg)
     # Also find the probability of being from the target_class
 #     print('The initial sequence is:', sequence)
 #     print('The initial localization clas is:', initial_class)

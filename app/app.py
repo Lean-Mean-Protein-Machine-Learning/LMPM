@@ -31,11 +31,9 @@ def load_seqs():
     specie = request.form['species']
     localization = request.form['location']
     add_feats = request.form.get('add_feat') != None
-    print(add_feats)
-    print(request.form)
 
     try:
-        prediction = lmpm.localization_score(seqs,specie,localization,add_feats)
+        prediction = lmpm.predict_location(seqs, specie, localization, add_feats, pred_all = True)
     except Exception as e:
         return render_template("input_error.html", error=e)
 

@@ -184,7 +184,7 @@ def predict_location(input_seq, organism='all', target_loc='all', include_dg=Fal
     if include_dg:
         dg = calculate_transmembrane_dg(sequence)
         dg_standardized = (dg - 2.053619) / (2.300432 ** 2)
-        values.append(dg_standardized)
+        values = np.append(values, dg_standardized)
     values = values.reshape(1, -1)
     
     # process query
@@ -204,16 +204,17 @@ def predict_location(input_seq, organism='all', target_loc='all', include_dg=Fal
         prediction_probabilities = list(model.predict_proba(values)[0])
         pred_results[org] = pd.Series(prediction_probabilities, index=classes)
     
+    # if user decided to predict all but return results for only one
+    if pred_all and organism != 'all':
+        filt_results = pred_results.loc[:,organism]
+    else:
+        filt_results = pred_results
+    
     # filter results accordingly
     if target_loc == 'all':
-        filt_results = pred_results
+        filt_results = filt_results
     else:
-        filt_results = pred_results.loc[target_loc]
-    
-    if pred_all and organism != 'all':
-        filt_results = filt_results.loc[:,organism]
-    else:
-        pass
+        filt_results = filt_results.loc[target_loc]
     
     # get the best prediction
     if organism == 'all':
