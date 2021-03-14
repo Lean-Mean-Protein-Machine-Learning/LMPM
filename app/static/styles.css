@@ -10,3 +10,7 @@ body {
 #location_select label {
      margin-left: +5px;
   }
+
+.tooltip-inner {
+    white-space:pre-wrap;
+}

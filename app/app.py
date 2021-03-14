@@ -28,28 +28,27 @@ def home():
 @app.route('/predict', methods=['POST'])
 def load_seqs():
     seqs = request.form['seqs']
-    data1 = request.form['a']
-    data2 = request.form['b']
-    data3 = request.form['c']
-    data_arr = np.array([data1, data2, data3])
-    pred = np.random.random(1)
+    specie = request.form['species']
+    localization = request.form['location']
+    add_feats = request.form.get('add_feat') != None
+    print(add_feats)
+    print(request.form)
+
     try:
-        prediction = lmpm.localization_score(seqs,'ecoli')
+        prediction = lmpm.localization_score(seqs,specie,localization,add_feats)
     except Exception as e:
         return render_template("input_error.html", error=e)
 
-    return render_template('results.html', data=data_arr, prediction = pred, seqs=seqs, uni_reps=unirep.get_UniReps(seqs), first_char=prediction)
+    return render_template('results.html', seqs=seqs, pred=prediction, prev_species=specie, prev_loc=localization, prev_add_feats=add_feats)
 
 
 @app.route('/improve', methods=['POST'])
 def mutate():
-    allf = request.form
     seqs = request.form['seqs']
     specie = request.form['species']
     localization = request.form['location']
     add_feats = request.form.get('add_feat') != None #if it is checeked is not empty so get True
-    # positions = request.form['positions']
-    positions = ['1','2']
+    positions = request.form['positions']
     mutated_scores, initial_score = lmpm.optimize_sequence(seqs, specie, localization, include_dg=add_feats, positions=positions)
     # example: AYAYAYAYAYAYYAYAAYAYAYA h sapiens cytoplasm
     plot_f = lmpm.improve_sec.plot_optimization(mutated_scores, initial_score, dpi=300)
@@ -61,7 +60,7 @@ def mutate():
     # Encode PNG image to base64 string
     b64plot = str("data:image/png;base64,")+str(base64.b64encode(pngImage.getvalue()).decode('utf8'))
 
-    return render_template('improve.html', seqs=seqs, specie=specie, loc=localization, add_feats=add_feats, forms=allf, plot=b64plot)
+    return render_template('improve.html', seqs=seqs, specie=specie, loc=localization, add_feats=add_feats, plot=b64plot)
 
 
 @app.route('/guide')

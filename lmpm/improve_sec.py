@@ -27,8 +27,8 @@ def get_residue_positions(positions):
     """Converts a list of integers or range of residues to individual residue numbers.
     
     Args:
-        positions: list of protein residues as integers or ranges.
-            Example: [1,3-5,8]
+        positions: string with a list of protein residues as integers or ranges.
+            Example: "1,3-5,8"
             
     Returns:
         res_posit: list of individual residues.
@@ -37,10 +37,13 @@ def get_residue_positions(positions):
     
     # initialize list
     res_posit = np.array([])
-    
+
+    # preprocess string to get list
+    positions = positions.split(',')
+
     for item in positions:
         # split if contains a "-"
-        item = np.array(item.split('-'), dtype='int')
+        item = np.array(str(item).split('-'), dtype='int')
         # if it contains a "-" the length will be 2
         if len(item) == 2:
             # create a range of integers from lower to higher value
@@ -101,7 +104,8 @@ def optimize_sequence(sequence, organism, target_class, include_dg=False, positi
         
         mut_score_pos = pd.Series(mut_score_pos, index = amino_acids)
         
-        original_name = str(sequence[resid]) + '_' + str(resid)
+        # +1 to correct 0 based sequence
+        original_name = str(sequence[resid]) + '_' + str(resid+1)
         
         mutated_scores[original_name] = mut_score_pos
 
