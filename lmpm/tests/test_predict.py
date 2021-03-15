@@ -8,7 +8,7 @@ import lmpm.predict as predict
 
 
 # define random sequence for testing
-sequence = 'GALRNDTGALMFWK'
+sequence = 'ALIENSRCMING'
 
 # def test_localization_score():
 #     # test passing a value for target_class that is not secreted, membrane or cytoplasm
@@ -52,7 +52,7 @@ def test_calculate_transmembrane_dg():
 
 
 def test_predict_loc_simple():
-    input_seq = 'GALRNDTGALMFWK'
+    input_seq = 'ALIENSRCMING'
     organism = ['human', 'yeast', 'ecoli', 'space aliens']
     target_loc = ['secreted', 'membrane', 'cytoplasm', 'Zeta Reticuli']
     include_dg  = [False, True, '']
@@ -69,7 +69,7 @@ def test_predict_loc_simple():
 
 
 def test_predict_location():
-    input_seq = 'GALRNDTGALMFWK'
+    input_seq = 'ALIENSRCMING'
     organism = ['human', 'yeast', 'ecoli', 'space aliens']
     target_loc = ['all', 'secreted', 'membrane', 'cytoplasm', 'Zeta Reticuli']
     include_dg = [False, True, '']
