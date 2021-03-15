@@ -96,5 +96,5 @@ def test_predict_location():
     result = predict.predict_location(input_seq, 'all', target_loc[0], include_dg=True)
     assert isinstance(result(), pd.DataFrame), "The result of predict_location for all organisms is not a pd.DataFrame"
 
-    result = predict.predict_location(input_seq, organism[0], target_loc[0], include_dg=True)
-    assert isinstance(result(), np.float64), "The result of predict_location with defined organisms is not a np.float"
+    result = predict.predict_location(input_seq, organism[0], target_loc[1], include_dg=True)
+    assert isinstance(result(),  pd.Series), "The result of predict_location with defined organisms is not a pd.Series"
