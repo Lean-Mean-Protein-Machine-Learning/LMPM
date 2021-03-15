@@ -24,7 +24,7 @@ amino_acids = ['G', 'A', 'L', 'M', 'F',
                'H', 'R', 'N', 'D', 'T']
 
 def get_residue_positions(positions):
-    """Converts a list of integers or range of residues to individual residue numbers.
+    """Converts a list of integers or ranges of residues to individual residue numbers.
     
     Args:
         positions: string with a list of protein residues as integers or ranges.
@@ -43,7 +43,11 @@ def get_residue_positions(positions):
 
     for item in positions:
         # split if contains a "-"
-        item = np.array(str(item).split('-'), dtype='int')
+        try:
+            item = np.array(str(item).split('-'), dtype='int')
+        except Exception as exep:
+            raise ValueError('The position should be a list of integers or ranges defined as: "integer-integer"')
+
         # if it contains a "-" the length will be 2
         if len(item) == 2:
             # create a range of integers from lower to higher value

@@ -15,9 +15,8 @@ def test_get_residue_positions():
 
         try:
             improve_sec.get_residue_positions(places)
-
         except Exception as exep:
-            assert isinstance(exep, ValueError), 'The position is a list of integers or ranges defined as: "integer-integer", but an error occured'
+            assert isinstance(exep, ValueError), 'Passing an incorrect list of residues did not raise a ValueError'
 
 
 def test_optimize_sequence():
