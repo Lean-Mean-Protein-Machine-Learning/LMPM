@@ -54,9 +54,7 @@ def get_residue_positions(positions):
             res_posit = np.append(res_posit, list(range(item[0], item[1]+1)))
         elif len(item) == 1:
             res_posit = np.append(res_posit, item)
-        else:
-            raise ValueError('The position should be a list of integers or ranges defined as: "integer-integer"')
-    
+        
     res_posit = np.array(np.unique(np.sort(res_posit)), dtype='int')
     
     return res_posit
@@ -93,6 +91,10 @@ def optimize_sequence(sequence, organism, target_class, include_dg=False, positi
         else:
             pass
 
+    # if specified more than 10 positions, return an error as it would take too much time.
+    if len(res_poses) > 10:
+        raise ValueError('The maximum number of residues to mutate is currently set at 10. Going over this maximum would take too much time with the current implementation, sorry.')
+
     mutated_scores = pd.DataFrame()
     
     for resid in res_poses:
@@ -115,7 +117,6 @@ def optimize_sequence(sequence, organism, target_class, include_dg=False, positi
     return mutated_scores, initial_score
 
 
-# better shape hopefully
 def plot_optimization(mutated_scores, initial_score, dpi=100):
     
     relative_sc = mutated_scores - initial_score

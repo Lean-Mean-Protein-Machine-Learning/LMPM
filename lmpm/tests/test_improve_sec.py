@@ -23,15 +23,14 @@ def test_optimize_sequence():
     sequence = 'ALIENSRCMING'
     organism = ['human', 'yeast', 'ecoli', 'space aliens']
     target_loc = ['secreted', 'membrane', 'cytoplasm', 'Zeta Reticuli']
-    positions = ["1,3-5,8", "1,4", "Space-aliens are coming!", '']
+    positions = ["1,3-5","120,150","Space-aliens are coming!", '']
 
     for places in positions:
         try:
-            res_posit = improve_sec.get_residue_positions(places)
-            improve_sec.optimize_sequence(sequence, organism[1], target_loc[1], False, res_posit)
+            improve_sec.optimize_sequence(sequence, organism[1], target_loc[1], False, places)
 
         except Exception as exep:
-            assert isinstance(exep, ValueError), "The correct input protein length was entered, but an error occured in optimize_sequence()."
+            assert isinstance(exep, ValueError), "Passing an incorrect list of residues did not raise a ValueError."
 
 
 def test_plot_optimization():
