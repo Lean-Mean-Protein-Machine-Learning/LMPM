@@ -106,6 +106,6 @@ Point mutations can be introduced in a sequence to improve secretion score. This
 - Melissa Ling - mling13@uw.edu
 - Marc Exposit
 - Andrew Favor
-- Joe Henthorn
+- Joe Henthorn - JosefH1@uw.edu  GitHub: JoeHenthorn
 - Gizem Gokce
 
