@@ -10,17 +10,24 @@
 
                     <h1>Results</h1>
 
-                    <p>The probability of being in the <code>{{pred.query['location']}}</code> on <code>{{pred.query['organism']}}</code> for your input sequence is of <code>{{pred.result*100}}%</code>.</p>
+                    <p>The probability of being {{ 'in the' if pred.query['location'] != 'secreted' }} <code>{{pred.query['location']}}</code> on <code>{{pred.query['organism']}}</code> for your input sequence is of <code>{{pred.result*100}}%</code>.</p>
 
-                    <!-- If target class no es igual a la predicted retornar la més frequent -->
-                    <p>The predicted location for this protein on <code>{{pred.query['organism']}}</code> is <code>{{pred.predicted_loc}}</code> with a probability of <code>{{pred.predicted_prob*100}}%</code>.</p>
-
-                    <p><code>{{seqs}}</code></p>
-
-                    <p>Your prediction is: {{pred}}</p>
-
+                    {% if pred.query['location'] != pred.predicted_loc %}
+                        <!-- If target class it is not the predicted localization, return the predicted localization -->
+                        <p>The predicted location for this protein on <code>{{pred.query['organism']}}</code> is <code>{{pred.predicted_loc}}</code> with a probability of <code>{{pred.predicted_prob*100}}%</code>.</p>
+                    {% else %}
+                        <!-- If target class is the predicted location, inform user about it -->
+                        <p>{{ pred.predicted_loc.capitalize() }} is the predicted location for your protein of interest.</p>
+                    {% endif %}
                 </div>
             </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <!-- Insert image representing prediction -->
+                    <img src="../static/img/logo_{{ pred.predicted_loc }}.png" class="img-fluid" alt="image with predicted location">
+                </div>
+            </div>
+
         </div>
     </div>
 

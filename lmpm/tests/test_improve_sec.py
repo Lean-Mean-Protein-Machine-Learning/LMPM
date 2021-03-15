@@ -72,5 +72,5 @@ def test_plot_optimization():
         assert isinstance(exep, TypeError), "Passing incorrect format for dpi did not raise TypeError"
 
     # try getting the figure as return
-    figure_res = improve_sec.plot_optimization(mut_sc, initial_score, False, dpi=100)
+    figure_res = improve_sec.plot_optimization(mutated_scores, initial_score, False, dpi=100)
     assert type(figure) == plt.Figure, 'Trying to get the figure in return did not generate a matplotlib.Figure'

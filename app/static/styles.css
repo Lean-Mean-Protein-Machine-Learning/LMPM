@@ -14,3 +14,12 @@ body {
 .tooltip-inner {
     white-space:pre-wrap;
 }
+
+.load-example {
+    cursor: pointer;
+}
+
+.load-example:hover {
+  cursor: pointer;
+  background-color: #545b62;
+}
