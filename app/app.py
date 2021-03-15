@@ -49,7 +49,7 @@ def mutate():
     positions = request.form['positions']
     mutated_scores, initial_score = lmpm.optimize_sequence(seqs, specie, localization, include_dg=add_feats, positions=positions)
     # example: AYAYAYAYAYAYYAYAAYAYAYA h sapiens cytoplasm
-    plot_f = lmpm.improve_sec.plot_optimization(mutated_scores, initial_score, dpi=300)
+    plot_f = lmpm.improve_sec.plot_optimization(mutated_scores, initial_score, plot_inplace=False, dpi=300)
 
     # help of https://gitlab.com/snippets/1924163 and https://stackoverflow.com/questions/50728328/python-how-to-show-matplotlib-in-flask
     pngImage = io.BytesIO()

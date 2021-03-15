@@ -67,6 +67,11 @@ def test_predict_loc_simple():
                     assert isinstance(exep, ValueError), ("Passing an correct target location of " + fate + 
 	        												" caused an error.")
 
+    # check output
+    result = predict.predict_loc_simple(input_seq, organism[0], target_loc[0], include_dg=True)
+    assert isinstance(result, np.float64), "The result of predict_loc_simple is not a np.float"
+
+
 
 def test_predict_location():
     input_seq = 'ALIENSRCMING'
@@ -85,7 +90,9 @@ def test_predict_location():
                         # if it is not, it should raise a ValueError
                         assert isinstance(exep, ValueError), ("Passing an correct target location of " + fate + 
 		        												" caused an error.")
+    # check output
+    result = predict.predict_location(input_seq, 'all', target_loc[0], include_dg=True)
+    assert isinstance(result(), pd.DataFrame), "The result of predict_location for all organisms is not a pd.DataFrame"
 
-
-
-
+    result = predict.predict_location(input_seq, organism[0], target_loc[0], include_dg=True)
+    assert isinstance(result(), np.float64), "The result of predict_location with defined organisms is not a np.float"

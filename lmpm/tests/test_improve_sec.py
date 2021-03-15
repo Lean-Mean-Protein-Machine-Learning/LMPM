@@ -23,7 +23,7 @@ def test_optimize_sequence():
     sequence = 'ALIENSRCMING'
     organism = ['human', 'yeast', 'ecoli', 'space aliens']
     target_loc = ['secreted', 'membrane', 'cytoplasm', 'Zeta Reticuli']
-    positions = ["1,3-5","120,150","Space-aliens are coming!", '']
+    positions = ["1,3-5","120,150","Space-aliens are coming!","1-12"]
 
     for places in positions:
         try:
@@ -32,24 +32,40 @@ def test_optimize_sequence():
         except Exception as exep:
             assert isinstance(exep, ValueError), "Passing an incorrect list of residues did not raise a ValueError."
 
+    # test the function without position argument too
+    try:
+        mutated_scores, initial_score = improve_sec.optimize_sequence(sequence, organism[1], target_loc[1], False)
+    except Exception as exep:
+        assert isinstance(exep, ValueError), "Trying to mutate all positions did not raise a ValueError."
+
 
 def test_plot_optimization():
     sequence = 'ALIENSRCMING'
-    organism = ['human', 'yeast', 'ecoli', 'space aliens']
-    target_loc = ['secreted', 'membrane', 'cytoplasm', 'Zeta Reticuli']
-    positions = ["1,3-5,8", "1,4", "Space-aliens are coming!", '']
+    organism = ['human']
+    target_loc = ['membrane']
+    position = ['1,3']
+    
+    # get some correct input data
+    mutated_scores, initial_score =  improve_sec.optimize_sequence(sequence, organism, target_loc, False, position)
 
-    for places in positions:
+    # generate an incorrect format for input data
+    mut_scores_options = [mutated_scores, {'incorrect_format':0.9,'incorrect_loc':0.1}]
+    
+    # try passing correct and incorrect values for mutated_scores
+    for mut_sc in mut_scores_options:
         try:
-            res_posit = improve_sec.get_residue_positions(places)
-            mutated_scores, initial_score =  improve_sec.optimize_sequence(sequence, organism[1], target_loc[1], False, res_posit)
-            improve_sec.plot_optimization(mutated_scores, initial_score, dpi=100)
-
+            improve_sec.plot_optimization(mut_sc, initial_score, dpi=100)
         except Exception as exep:
-            assert isinstance(exep, ValueError), " The correct size inputs were entered, but an error occured in plot_optimization() "
+            assert isinstance(exep, TypeError), "Passing incorrect format for mutated_scores did not raise TypeError"
 
-
-
-
-
-
+    # try passing incorrect type for initial_score
+    try:
+        improve_sec.plot_optimization(mutated_scores, initial_score=['alienscore'], plot_inplace = False, dpi=100)
+    except Exception as exep:
+        assert isinstance(exep, TypeError), "Passing incorrect format for initial_score did not raise TypeError"
+    
+    # try passing incorrect type for dpi
+    try:
+        improve_sec.plot_optimization(mutated_scores, initial_score, True, dpi='aliensrcoming')
+    except Exception as exep:
+        assert isinstance(exep, TypeError), "Passing incorrect format for dpi did not raise TypeError"

@@ -117,9 +117,25 @@ def optimize_sequence(sequence, organism, target_class, include_dg=False, positi
     return mutated_scores, initial_score
 
 
-def plot_optimization(mutated_scores, initial_score, dpi=100):
+def plot_optimization(mutated_scores, initial_score, plot_inplace=True, dpi=100):
+    """
+
+    """
+    if not isinstance(mutated_scores, pd.DataFrame):
+        raise TypeError('The mutate_scores variable should be a pd.DataFrame object but received a '+str(type(mutated_scores)))
+    else:
+        pass
+
+    try:
+        relative_sc = mutated_scores - initial_score
+    except Exception as e:
+        raise TypeError('The values of the mutated scores dataframe and initial_score variable should be numeric. But got error: '+str(e))
     
-    relative_sc = mutated_scores - initial_score
+    try:
+        dpi = int(dpi)
+    except Exception as e:
+        raise TypeError('The value of dpi should be an integer, but got '+str(dpi)+' instead')
+
     # set width between 8 and 18 depending on number of positions
     # if the maximum is passed, the x axis labels will overlap
     width = np.minimum(np.maximum(int(8*mutated_scores.shape[1]/28),8),18)
@@ -144,5 +160,10 @@ def plot_optimization(mutated_scores, initial_score, dpi=100):
     ax.set_xlabel('Position and original amino acid')
     ax.set_ylabel('Mutation')
 
-    # plt.show()
-    return fig
+    # if on a notebook, plot and return nothing or it would be plot twice 
+    if plot_inplace:
+        plt.show()
+        return None
+    # for other applications select plot_inplace=False and return the figure
+    else:
+        return fig
