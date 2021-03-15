@@ -54,6 +54,10 @@ def model_organism_selection(organism, include_dg):
     Returns:
         model: trained model of secretion probabilities for organism
     """
+    if organism not in ['human', 'yeast', 'ecoli']:
+        raise ValueError('The selected organism was: "' + str(organism) + '", but should be only human, yeast, ecoli, or all')
+    else:
+        pass
     # Create dictionary of loaded, trained models
     # Check specification of additional features
     if include_dg:
@@ -115,8 +119,13 @@ def predict_loc_simple(input_seq, organism, target_loc, include_dg=False):
     
     ## Tests to check inputs
     # target class should be one of the classes of the model
+    if organism not in ['human', 'yeast', 'ecoli']:
+        raise ValueError('The selected organism was: "' + str(organism) + '", but should be only human, yeast, ecoli, or all')
+    else:
+        pass
+
     if target_loc not in ['secreted', 'membrane', 'cytoplasm']:
-        raise ValueError('The selected probability was: "'+str(target_loc)+'", but should be either secreted, membrane or cytoplasm')
+        raise ValueError('The selected probability was: "' + str(target_loc) + '", but should be either secreted, membrane or cytoplasm')
     else:
         pass
     
@@ -162,6 +171,10 @@ def predict_location(input_seq, organism='all', target_loc='all', include_dg=Fal
         target_score (float): probability of sequence being 
                             in target class
     """
+    if organism not in ['human', 'yeast', 'ecoli']:
+        raise ValueError('The selected organism was: "' + str(organism) + '", but should be only human, yeast, ecoli, or all')
+    else:
+        pass
     
     ## Tests to check inputs
     # target class should be one of the classes of the model
