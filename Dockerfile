@@ -5,7 +5,7 @@ FROM continuumio/miniconda3
 SHELL ["/bin/bash","--login","-c"]
 
 # We copy just the requirements.txt first to leverage Docker cache
-COPY ./environment.yml /app/environment.yml
+COPY ./app/environment_web.yml /app/environment_web.yml
 # Copy the module inside the root folder so that the container can use it
 COPY ./lmpm /lmpm
 # define the working directory inside the container (created if does not exist)
@@ -21,7 +21,7 @@ RUN chmod u+x /app/entrypoint.sh
 # install the dependencies
 #RUN pip3 install -r requirements.txt
 # to run conda you have to do it this way:
-RUN conda env create -f /app/environment.yml
+RUN conda env create -f /app/environment_web.yml
 # run entrypoint, so that conda is activated when running the CMD command and we effectively inside the conda environment
 ENTRYPOINT ["/app/entrypoint.sh"]
 
