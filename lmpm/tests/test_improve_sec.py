@@ -7,6 +7,7 @@ Write tests for the improve_sec.py functions.
 
 import lmpm.improve_sec as improve_sec
 import matplotlib.pyplot as plt
+import pandas as pd
 
 
 def test_get_residue_positions():
