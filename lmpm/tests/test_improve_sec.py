@@ -41,9 +41,9 @@ def test_optimize_sequence():
 
 def test_plot_optimization():
     sequence = 'ALIENSRCMING'
-    organism = ['human']
-    target_loc = ['membrane']
-    position = ['1,3']
+    organism = 'human'
+    target_loc = 'membrane'
+    position = '1,3'
     
     # get some correct input data
     mutated_scores, initial_score =  improve_sec.optimize_sequence(sequence, organism, target_loc, False, position)

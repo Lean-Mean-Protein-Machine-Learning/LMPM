@@ -60,9 +60,11 @@ def test_load_weights():
 
 
 
-# def test_scan():
-#     unirep_utils.scan(f, init, xs, length=None)
-
+def test_scan():
+    try:
+        unirep_utils.scan(unirep_utils.mLSTMCell,init=(34,24), xs = None, length=8)
+    except Exception as e:
+        assert isinstance(e, ValueError), "Passing incorrect values to scan did not raise a ValueError"
 
 
 def test_get_UniReps():
@@ -72,9 +74,3 @@ def test_get_UniReps():
         unirep_utils.get_UniReps(seq)
     except:
         assert False, "Aliens are coming!!!!!"
-
-
-
-
-
-

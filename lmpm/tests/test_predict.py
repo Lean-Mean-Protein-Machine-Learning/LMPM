@@ -3,6 +3,8 @@ Write tests for the predict.py functions.
 """
 
 import lmpm.predict as predict
+import numpy as np
+import pandas as pd
 
 # import predict
 
@@ -52,7 +54,7 @@ def test_calculate_transmembrane_dg():
 
 
 def test_predict_loc_simple():
-    input_seq = 'ALIENSRCMING'
+    input_seq = 'ALIENSRCMINGALIENSRCMING'
     organism = ['human', 'yeast', 'ecoli', 'space aliens']
     target_loc = ['secreted', 'membrane', 'cytoplasm', 'Zeta Reticuli']
     include_dg  = [False, True, '']
@@ -74,7 +76,7 @@ def test_predict_loc_simple():
 
 
 def test_predict_location():
-    input_seq = 'ALIENSRCMING'
+    input_seq = 'ALIENSRCMINGALIENSRCMING'
     organism = ['human', 'yeast', 'ecoli', 'space aliens']
     target_loc = ['all', 'secreted', 'membrane', 'cytoplasm', 'Zeta Reticuli']
     include_dg = [False, True, '']
