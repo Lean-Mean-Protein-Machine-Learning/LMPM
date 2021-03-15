@@ -167,3 +167,34 @@ def plot_optimization(mutated_scores, initial_score, plot_inplace=True, dpi=100)
     # for other applications select plot_inplace=False and return the figure
     else:
         return fig
+
+def top_mutations(mutated_scores, initial_score, top_results):
+
+    if type(top_results) != int:
+        raise TypeError('top results should be an integer')
+    else:
+        pass
+
+    prob_change = mutated_scores - initial_score
+
+    top_res = pd.DataFrame(columns=["Position","Mutation","Prob_increase","Target_probability"])
+
+    i = 0
+    # initialize at max val to enter the loop
+    pred_increase = 1
+
+    while i < top_results and pred_increase > 0:
+        # get column with maximum value
+        position_mut = prob_change.max().idxmax()
+        # get row with maximum value
+        mutation = prob_change.idxmax()[position_mut]
+        pred_increase = prob_change.loc[mutation, position_mut]
+        prob_value = mutated_scores.loc[mutation, position_mut]
+        # change it for nan so that we can look for next result
+        prob_change.loc[mutation, position_mut] = np.nan
+        mut_series = pd.Series({"Position": position_mut, "Mutation": mutation,
+                                "Prob_increase": pred_increase, "Target_probability": prob_value})
+        top_res = top_res.append(mut_series, ignore_index=True)
+        i += 1
+
+    return top_res

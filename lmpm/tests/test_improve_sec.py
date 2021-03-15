@@ -73,4 +73,19 @@ def test_plot_optimization():
 
     # try getting the figure as return
     figure_res = improve_sec.plot_optimization(mutated_scores, initial_score, False, dpi=100)
-    assert type(figure) == plt.Figure, 'Trying to get the figure in return did not generate a matplotlib.Figure'
+    assert type(figure_res) == plt.Figure, 'Trying to get the figure in return did not generate a matplotlib.Figure'
+
+def test_top_mutations():
+    sequence = 'ALIENSRCMING'
+    organism = 'human'
+    target_loc = 'membrane'
+    position = '1,3'
+
+    mutated_scores, initial_score =  improve_sec.optimize_sequence(sequence, organism, target_loc, False, position)
+    try:
+        improve_sec.top_mutations(mutated_scores, initial_score, 'aliens')
+    except Exception as exep:
+        assert isinstance(exep, TypeError), "Passing a non-integer as top_results did not return a type error"
+
+    result = improve_sec.top_mutations(mutated_scores, initial_score, 10)
+    assert type(result) == pd.DataFrame, "The result of top_mutations is not a DataFrame"

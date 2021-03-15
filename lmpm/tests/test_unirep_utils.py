@@ -3,15 +3,15 @@ Write tests for the predict.py functions.
 """
 
 import lmpm.unirep.unirep_utils as unirep_utils
-
+import numpy as np
 
 def test_my_seq_to_ints():
     seqs = ['ALIENSRCMING','invalidAAstring']
     for seq in seqs:
         try:
             unirep_utils.my_seq_to_ints(seq)
-        except:
-            assert False, "Passing invalid sequences did not raise an error"
+        except Exception as exep:
+            assert isinstance(exep, KeyError), "Passing invalid sequences did not raise an error"
 
 
 # def test_my_get_embeddings():
@@ -24,8 +24,8 @@ def test_sigmoid():
     for x in xs:
         try:
             unirep_utils.sigmoid(x, version="tanh")
-        except:
-            assert False, "Passing invalid values in sigmoid did not raise an error"
+        except Exception as exep:
+            assert isinstance(exep, TypeError), "Passing invalid values in sigmoid did not raise an error"
 
 
 def test_tanh():
@@ -33,8 +33,8 @@ def test_tanh():
     for x in xs:
         try:
             unirep_utils.tanh(x)
-        except:
-            assert False, "Passing invalid values in tanh did not raise an error"
+        except Exception as exep:
+            assert isinstance(exep, TypeError), "Passing invalid values in tanh did not raise an error"
 
 
 
@@ -43,8 +43,8 @@ def test_safe_sigmoid_exp():
     for x in xs:
         try:
             unirep_utils.safe_sigmoid_exp(x, clip_value=-88)
-        except:
-            assert False, "Passing invalid values in safe_sigmoid_exp did not raise an error"
+        except Exception as exep:
+            assert isinstance(exep, np.core._exceptions._UFuncNoLoopError), "Passing invalid values in safe_sigmoid_exp did not raise an error"
 
 
 # def test_l2_normalize():
@@ -68,5 +68,5 @@ def test_get_UniReps():
     for seq in seqs:
         try:
             unirep_utils.get_UniReps(seq)
-        except:
-            assert False, "Passing invalid sequences did not raise an error"
+        except Exception as exep:
+            assert isinstance(exep, KeyError), "Passing invalid sequences did not raise an error"
