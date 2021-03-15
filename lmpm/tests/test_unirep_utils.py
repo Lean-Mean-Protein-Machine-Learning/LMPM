@@ -6,11 +6,12 @@ import lmpm.unirep.unirep_utils as unirep_utils
 
 
 def test_my_seq_to_ints():
-    seq = 'ALIENSRCMING'
-    try:
-        unirep_utils.my_seq_to_ints(seq)
-    except:
-        assert False, "Aliens are coming"
+    seqs = ['ALIENSRCMING','invalidAAstring']
+    for seq in seqs:
+        try:
+            unirep_utils.my_seq_to_ints(seq)
+        except:
+            assert False, "Passing invalid sequences did not raise an error"
 
 
 # def test_my_get_embeddings():
@@ -19,40 +20,35 @@ def test_my_seq_to_ints():
 
 
 def test_sigmoid():
-    x = 42
-    try:
-        unirep_utils.sigmoid(x, version="tanh")
-    except:
-        assert False, "Aliens are coming!"
+    xs = [42, 'alien_number']
+    for x in xs:
+        try:
+            unirep_utils.sigmoid(x, version="tanh")
+        except:
+            assert False, "Passing invalid values in sigmoid did not raise an error"
 
 
 def test_tanh():
-    x = 42
-    try:
-        unirep_utils.tanh(x)
-    except:
-        assert False, "Aliens are coming!!"
+    xs = [42, 'alien_number']
+    for x in xs:
+        try:
+            unirep_utils.tanh(x)
+        except:
+            assert False, "Passing invalid values in tanh did not raise an error"
+
 
 
 def test_safe_sigmoid_exp():
-    x = 42
-    try:
-        unirep_utils.safe_sigmoid_exp(x, clip_value=-88)
-    except:
-        assert False, "Aliens are coming!!!"
+    xs = [42, 'alien_number']
+    for x in xs:
+        try:
+            unirep_utils.safe_sigmoid_exp(x, clip_value=-88)
+        except:
+            assert False, "Passing invalid values in safe_sigmoid_exp did not raise an error"
 
 
 # def test_l2_normalize():
 #     unirep_utils.l2_normalize(arr, axis, epsilon=1e-12)
-
-
-
-def test_load_weights():
-    try:
-        unirep_utils.load_weights()
-    except:
-        assert False, "Aliens are coming!!!!"
-
 
 
 # def test_mLSTMCell():
@@ -68,9 +64,9 @@ def test_scan():
 
 
 def test_get_UniReps():
-    seq = 'ALIENSRCMING'
-
-    try:
-        unirep_utils.get_UniReps(seq)
-    except:
-        assert False, "Aliens are coming!!!!!"
+    seqs = ['ALIENSRCMING','invalidaastring']
+    for seq in seqs:
+        try:
+            unirep_utils.get_UniReps(seq)
+        except:
+            assert False, "Passing invalid sequences did not raise an error"

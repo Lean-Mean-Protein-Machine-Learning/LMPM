@@ -72,16 +72,17 @@ def test_check_bad_chars():
     
     seq7 = 'ATGILPQXMCTFWDPSCUAGINMWRTC' # Case 6: Ambigious AA's
     seq8 = 'ATGIL$PQWMCTFWDPSCUAGINMWRTC' # Case 7: Bad characters in AA string
+    seq9 = 'ATCMNQSDYPLIGA' # include a correct AA string
 
-    seqences = [seq7, seq8]
+    seqences = [seq7, seq8, seq9]
 
-    for seq in seqences:
-        try:
-            check_inputs.check_bad_chars(seq, amino_acids)
+    # list with incorrect amino acis for each string
+    bad_aa_list = [['X', 'U'], ['$', 'U'], []] 
 
-        except Exception as exep:
-            assert isinstance(exep, AssertionError), ("An unplanned error occured. Not an 'AssertionError.'"
-                                                        " Error with test: " + str(seq))
+    for seq, bad_aa in zip(seqences,bad_aa_list):
+        bad_output = check_inputs.check_bad_chars(seq, amino_acids)
+        assert bad_output == bad_aa, 'check_bad_chars should have returned '+str(bad_aa)+' but got '+str(bad_output)+' instead.'
+
     return None
 
 
@@ -140,8 +141,15 @@ def test_check_input():
     seq9 = 'AlaHisLysThrValPheMetLysProTrpAsnGlnIleGlyArgLysArgCysSer' # Case 9: Three letter AA codes
     seq10 = 'ALAHISLYSTHRVALPHEMETLYSPROTRPASNGLNILEGLYARGLYSARGCYSSER' # Case 10: Three letter AA codes all upper case
     seq11 = 'alahislysthrvalphemetlysprotrpasnglnileglyarglysargcysgly' # Case 11: Three letter AA codes all lower case
+    seq12 = 'AlaHisLys¿?RThrValPheMetLysProTrpAsnGlnIleGlyArgLysArgCysSer' # Case 12: Bad characters in three letter AA codes
+    seq13 = 'AlaHisLys¿ThrValPheMetLysProTrpAsnGlnIleGlyArgLysArgCysSer' # Case 13: Mixed sequence but not multiple of 3
+    seq14 = 'ahlhislysthrvalphemetlystrptrpasnglnileglyarglysargcysgly' # Case 14: Three letter AA codes all lower case with incorrect amino acid value
+    seq15 = 'at!hislysthrvalphemetlysprotrpasnglnileglyarglysargcysgly' # Case 15: Three letter AA codes all lower case with incorrect amino acid value with incorrect character
+    seq16 = 'athislysthrvalphemetlysprotrpasnglnileglyarglysargcysgly' # Case 16: Three letter AA codes all lower case but not multiple of 3
+    seq17 = 4242 # Case 17: Not a string input
 
-    seqences = [seq1, seq2, seq3, seq4, seq5, seq6, seq7, seq8, seq9, seq10, seq11]
+    seqences = [seq1, seq2, seq3, seq4, seq5, seq6, seq7, seq8, seq9,
+                seq10, seq11, seq12, seq13, seq14, seq15, seq16, seq17]
 
     for seq in seqences:
         try:

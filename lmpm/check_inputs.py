@@ -100,7 +100,10 @@ def check_for_three_letter_code(seq, amino_acids):
     """This code is checking to see if user entered three letter AA codes.
     """
 
-    if not seq.islower() and not seq.isupper(): # Mixed sequence
+    if type(seq) != str:
+        assert False, 'Expected a string as sequence input, but got '+str(type(seq))+' instead'
+
+    elif not seq.islower() and not seq.isupper(): # Mixed sequence
 
         if len(seq)%3 == 0: # Could be three letter codes
 
@@ -125,7 +128,7 @@ def check_for_three_letter_code(seq, amino_acids):
             return seq_new
 
         else:
-            assert False, ("The input is not a valid input. "
+            assert False, ("The input is not a valid input. Your sequence has upper case and lower case values and it is not in 3 letter amino acid code."
                         "Use only the single letter codes of the 20 essential amino acids")
 
     elif seq.isupper(): # Check if three potential letter sequence is all upper case
@@ -177,7 +180,7 @@ def check_for_three_letter_code(seq, amino_acids):
                             seq_new += key
 
                 elif AA not in {v.lower() for v in amino_acids.values()}:
-                    seq = seq.upper
+                    seq = seq.upper()
                     bad_characters = check_bad_chars(seq, amino_acids)
                     if bad_characters == []:
                         return seq
@@ -191,8 +194,8 @@ def check_for_three_letter_code(seq, amino_acids):
 
         bad_characters = check_bad_chars(seq, amino_acids)
         raise_error_bad_char(bad_characters)
-    else:
-        return False
+        
+    return None
 
 
 def check_input(seq):

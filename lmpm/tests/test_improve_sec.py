@@ -6,6 +6,7 @@ Write tests for the improve_sec.py functions.
 
 
 import lmpm.improve_sec as improve_sec
+import matplotlib.pyplot as plt
 
 
 def test_get_residue_positions():
@@ -69,3 +70,7 @@ def test_plot_optimization():
         improve_sec.plot_optimization(mutated_scores, initial_score, True, dpi='aliensrcoming')
     except Exception as exep:
         assert isinstance(exep, TypeError), "Passing incorrect format for dpi did not raise TypeError"
+
+    # try getting the figure as return
+    figure_res = improve_sec.plot_optimization(mut_sc, initial_score, False, dpi=100)
+    assert type(figure) == plt.Figure, 'Trying to get the figure in return did not generate a matplotlib.Figure'
