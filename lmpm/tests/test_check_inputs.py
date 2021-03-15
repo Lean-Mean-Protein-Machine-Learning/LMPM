@@ -108,11 +108,16 @@ def test_check_for_three_letter_code():
            'E':'Glu','R':'Arg','H':'His','K':'Lys','S':'Ser',
            'T':'Thr','C':'Cys','M':'Met','N':'Asn','Q':'Gln',}
     
-    seq9 = 'AlaHisLysThrValPheMetLysProTrpAsnGlnIleGlyArgLysArgCysSer' # Case 8: Three letter AA codes
-    seq10 = 'ALAHISLYSTHRVALPHEMETLYSPROTRPASNGLNILEGLYARGLYSARGCYSSER' # Case 9: Three letter AA codes all upper case
-    seq11 = 'alahislysthrvalphemetlysprotrpasnglnileglyarglysargcysgly' # Case 10: Three letter AA codes all lower case
+    seq9 = 'AlaHisLysThrValPheMetLysProTrpAsnGlnIleGlyArgLysArgCysSer' # Case 9: Three letter AA codes
+    seq10 = 'ALAHISLYSTHRVALPHEMETLYSPROTRPASNGLNILEGLYARGLYSARGCYSSER' # Case 10: Three letter AA codes all upper case
+    seq11 = 'alahislysthrvalphemetlysprotrpasnglnileglyarglysargcysgly' # Case 11: Three letter AA codes all lower case
+    seq12 = 'ahlhislysthrvalphemetlystrptrpasnglnileglyarglysargcysgly' # Case 12: Three letter AA codes all lower case with incorrect amino acid value
+    seq13 = 'at!hislysthrvalphemetlysprotrpasnglnileglyarglysargcysgly' # Case 13: Three letter AA codes all lower case with incorrect amino acid value with incorrect character
+    seq14 = 'athislysthrvalphemetlysprotrpasnglnileglyarglysargcysgly' # Case 14: Three letter AA codes all lower case with incorrect amino acid value with incorrect character
+    seq15 = 4545 # Case 15: Three letter AA codes all lower case with incorrect amino acid value with incorrect character
 
-    seqences = [seq9, seq10, seq11]
+
+    seqences = [seq9, seq10, seq11, seq12, seq13, seq14, seq15]
 
     for seq in seqences:
         try:

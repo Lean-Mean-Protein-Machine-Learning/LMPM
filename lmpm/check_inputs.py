@@ -75,8 +75,7 @@ def check_bad_chars(seq, amino_acids):
     for character in seq:
         if character not in amino_acids.keys():
             bad_characters = bad_characters + [character]
-        else:
-            pass
+            
     return bad_characters
 
 

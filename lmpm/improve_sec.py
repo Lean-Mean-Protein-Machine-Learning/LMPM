@@ -148,7 +148,8 @@ def plot_optimization(mutated_scores, initial_score, plot_inplace=True, dpi=100)
                         relative_sc.values, shading='nearest',
                         norm=colors.Normalize(vmin=-max_sc, vmax=max_sc),
                         cmap='bwr')
-    fig.colorbar(pcm, ax=ax, extend='both')
+    cb = fig.colorbar(pcm, ax=ax, extend='both')
+    cb.set_label('Change in probability for target class',  fontsize=12)
     # ax.set_xticklabels(labels, rotation=45, ha='right')
     # ax.set_xticklabels(ax.get_xticks(), rotation=90)
     ax.set_xticklabels(mutated_scores.columns, rotation=90)
