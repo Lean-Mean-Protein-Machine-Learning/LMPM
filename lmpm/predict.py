@@ -120,7 +120,7 @@ def predict_loc_simple(input_seq, organism, target_loc, include_dg=False):
     ## Tests to check inputs
     # target class should be one of the classes of the model
     if organism not in ['human', 'yeast', 'ecoli']:
-        raise ValueError('The selected organism was: "' + str(organism) + '", but should be only human, yeast, ecoli, or all')
+        raise ValueError('The selected organism was: "' + str(organism) + '", but should be only human, yeast or ecoli')
     else:
         pass
 
@@ -171,15 +171,15 @@ def predict_location(input_seq, organism='all', target_loc='all', include_dg=Fal
         target_score (float): probability of sequence being 
                             in target class
     """
-    if organism not in ['human', 'yeast', 'ecoli']:
-        raise ValueError('The selected organism was: "' + str(organism) + '", but should be only human, yeast, ecoli, or all')
+    if organism not in ['human', 'yeast', 'ecoli', 'all']:
+        raise ValueError('The selected organism was: "' + str(organism) + '", but should be only human, yeast, ecoli, or all (default)')
     else:
         pass
     
     ## Tests to check inputs
     # target class should be one of the classes of the model
     if target_loc not in ['secreted', 'membrane', 'cytoplasm','all']:
-        raise ValueError('The selected probability was: "'+str(target_loc)+'", but should be either secreted, membrane, cytoplasm or all(default)')
+        raise ValueError('The selected probability was: "'+str(target_loc)+'", but should be either secreted, membrane, cytoplasm or all (default)')
     else:
         pass
     
