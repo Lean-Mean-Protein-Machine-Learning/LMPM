@@ -33,3 +33,5 @@ This way the user does not have to worry about the rest of helper functions.
 from .predict import predict_loc_simple
 from .predict import predict_location
 from .improve_sec import optimize_sequence
+from .improve_sec import plot_optimization
+from .improve_sec import top_mutations
