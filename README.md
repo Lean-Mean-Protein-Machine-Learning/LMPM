@@ -41,41 +41,52 @@ Structure-based design of proteins shows great promise in nanoparticle vaccines.
 <!-- GETTING STARTED -->
 ## Getting Started
 
+### Using the web app:
 
+We have deployed our machine learning model as a web app hosted on Heroku. It is by far
+the most intuitive way to use it and offers nearly all the functionality of the module. Please, 
+check it out at [https://lmpm.herokuapp.com/](https://lmpm.herokuapp.com/).
 
-Clone the repository:
+Since we are using free Heroku hosting, you may reach the memory limit. An easy alternative is
+running the web app locally, so that it acts as a user interface for the module. For that you
+need a working [Docker installation](https://docs.docker.com/get-docker/) and running the following commands:
 
-  ```sh
-  https://github.com/Lean-Mean-Protein-Machine-Learning/LMPM.git
-  ```
-Move inside the repository:
+```sh
+git clone https://github.com/Lean-Mean-Protein-Machine-Learning/LMPM.git
+cd LMPM
+docker build -t lmpm_web .
+docker run -d -it -p 5000:5000 --name lmpm_image lmpm_web
+```
 
-  ```sh
-  cd LMPM
-  ```
-Install the environment:
+Building the docker image will take 30 seconds and about 500 Mb of disk space. Then the app will be live and perfectly functional on your browser at `http://localhost:5000/`.
 
-  ```sh
-  conda env create -f environment_dev.yml
-  ```
-Load the environment:
+### Using as a module:
 
-  ```sh
-  conda activate lmpmdev
-  jupyter notebook
-  ```
-This environment fulfills the requirements of the module:
-- python=3.8.8
-- numpy=1.20.1
-- pandas=1.2.3
-- matplotlib=3.3.4
-- seaborn=0.11.1
-- scikit-learn=0.23.2
+Using `lmpm` as a Python module offers more versatility than the web app and facilitates integrating its functions into an automated pipeline/workflow. For that, you only need a Python environment with the lmpm dependencies (see "Dependencies" section above) installed. Optionally, you can set up a new conda environment for this module by downloading our `environment.yml` file and creating it:
 
-The `lmpm` module can be installed using:
+```sh
+# install miniconda (if required)
+wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
+bash Miniconda3-latest-Linux-x86_64.sh
+
+# download environment specification file
+wget https://raw.githubusercontent.com/Lean-Mean-Protein-Machine-Learning/LMPM/main/environment.yml
+
+# create "lmpmenv" environment from this file
+conda env create -f environment.yml
+
+# activate environment
+conda activate lmpmenv
+``` 
+
+With an environment with the required dependencies, you can then install the lmpm module with:
+
 ```sh
 python3 -m pip install git+https://github.com/Lean-Mean-Protein-Machine-Learning/LMPM
 ```
+### For developers:
+
+For more details on how to use the module or contribute, check our [docs/get_started.md](https://github.com/Lean-Mean-Protein-Machine-Learning/LMPM/blob/main/docs/get_started.md) file.
 
 
 <!-- USAGE EXAMPLES -->
