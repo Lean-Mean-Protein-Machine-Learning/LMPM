@@ -147,7 +147,13 @@ A more informative demo notebook is available under [docs/lmpm_demo.ipynb](https
 This project is licensed under the MIT license.
 
 
+<!-- CONTRIBUTE -->
+## Contribute
+Lean, Mean, Protein Machine is a completely functional module but can offer much more.
 
+- If you have an idea and want to implement it, clone our repo and initite a pull request.
+- If you find any issue using our module, open a Github issue [here](https://github.com/Lean-Mean-Protein-Machine-Learning/LMPM/issues), we will try to fix it.
+- Finally, if you like the project and would like to contribute but don't have a specific idea in mind, contact us! We have many ideas in mind on how the project could advance and about new functions that could be added to extend its functionality.
 
 <!-- CONTACT -->
 ## Contact
