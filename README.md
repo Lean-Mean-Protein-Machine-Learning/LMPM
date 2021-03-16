@@ -26,19 +26,16 @@
 Structure-based design of proteins shows great promise in nanoparticle vaccines. However, one of the major hurdles to function and use of designed nanoparticles is sub-optimal secretion. In this project, we have analyzed proteins in three different organisms (humans, yeast, and E. Coli) to correlate subcellular location to genetically encodable features. We have also added an option of extending this model to include transmembrane potential, percent of secondary structure helices, and flexibility of amino acids. These models predict the probability of a protein being in the secreted class. We have also added a function to introduce point mutations into a designed protein to improve the secretion score.
 
 ## Dependencies
-1. [BioPython](https://anaconda.org/bioconda/biopython)
-	- Tools for computational molecular biology, including sequence conversion utilities
-2. [Pandas](https://anaconda.org/anaconda/pandas)
+1. [Pandas](https://anaconda.org/anaconda/pandas)
 	- Data-organization framework
-3. [Numpy](https://anaconda.org/anaconda/numpy)
+2. [Numpy](https://anaconda.org/anaconda/numpy)
 	- Numerical operations
-4. [Scikit-Learn](https://anaconda.org/anaconda/scikit-learn)
+3. [Scikit-Learn](https://anaconda.org/anaconda/scikit-learn)
     - Supervised machine learning models
-5. [Jax](https://anaconda.org/conda-forge/jax)
-	- High-efficiency math library, optimized for accelerated linear algebra (XLA)
-6. [Jax-UniRep](https://github.com/ElArkk/jax-unirep)
-	- Library for applying the protein sequence-encoding paradigm, [UniRep](https://www.nature.com/articles/s41592-019-0598-1), implemented using Jax instead of Tensorflow
-
+4. [Matplotlib](https://anaconda.org/anaconda/matplotlib)
+	- Data Visualization in python 
+5. [Seaborn](https://anaconda.org/anaconda/seaborn)
+	- High-level interface for attractive graphics
 
 
 <!-- GETTING STARTED -->
