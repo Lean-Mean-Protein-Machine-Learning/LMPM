@@ -9,15 +9,15 @@
 	- System implicitly uses UniRep to featurize the amino acid sequences to a 1900-element vector.
 4. Select organism and trained model.
     - Protein designer/researcher provides the organism of the protein sequence of interest. This can be: all, human, yeast, or E. coli.
-5. Predict secretion score with UniRep features.
-	- System enters the sequence-based vector into a pre-trained model and returns a secretion score.
-	- The protein designer/researcher gets the secretion score for each of the sequences provided as input.
-6. Optimize secretion score accuracy with additional features.
+5. Predict secretion/cytoplasmic/membrane score with UniRep features.
+	- System enters the sequence-based vector into a pre-trained model and returns a secretion/cytoplasmic/membrane score.
+	- The protein designer/researcher gets the secretion/cytoplasmic/membrane score for each of the sequences provided as input.
+6. Optimize secretion/cytoplasmic/membrane score accuracy with additional features.
 	- Researcher choosed to add additional features: theoretical free energy of transmembrane insertion, flexibility, percent beta sheets.
-	- Model returns an improved secretion score based on additional features.
-7. Improve the secretion of a protein of interest.
-	- Protein designer has the option to improve the secretion of the protein of interest.
+	- Model returns an improved score based on additional features.
+7. Improve the secretion/cytoplasmic/membrane score of a protein of interest.
+	- Protein designer has the option to improve the score of the protein of interest.
 	- If the user selects this option, the model uses site saturation mutagenesis or a genetic algorithm to generate diversity from the initial sequence of interest.
     - Protein designer provides the amino acid sequence, the desired position for point mutations, and the organism.
-	- This newly generated sequences are analyzed in batch with the model to identify mutations that could increase the predicted secretion of the protein.
-	- The protein designer visualizes the results and uses that information to improve the secretion of the protein of interest.
+	- This newly generated sequences are analyzed in batch with the model to identify mutations that could increase the predicted score of the protein.
+	- The protein designer visualizes the results and uses that information to improve the score of the protein of interest.
