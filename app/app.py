@@ -45,17 +45,19 @@ def mutate():
     localization = request.form['location']
     add_feats = request.form.get('add_feat') != None #if it is checeked is not empty so get True
     positions = request.form['positions']
-    mutated_scores, initial_score = lmpm.optimize_sequence(seqs, specie, localization, include_dg=add_feats, positions=positions)
-    # example: AYAYAYAYAYAYYAYAAYAYAYA h sapiens cytoplasm
-    plot_f = lmpm.improve_sec.plot_optimization(mutated_scores, initial_score, plot_inplace=False, dpi=300)
-    mut_table = lmpm.top_mutations(mutated_scores, initial_score,15)
-
-    # help of https://gitlab.com/snippets/1924163 and https://stackoverflow.com/questions/50728328/python-how-to-show-matplotlib-in-flask
-    pngImage = io.BytesIO()
-    FigureCanvas(plot_f).print_png(pngImage)
-
-    # Encode PNG image to base64 string
-    b64plot = str("data:image/png;base64,")+str(base64.b64encode(pngImage.getvalue()).decode('utf8'))
+    
+    try:
+        mutated_scores, initial_score = lmpm.optimize_sequence(seqs, specie, localization, include_dg=add_feats, positions=positions)
+        # example: AYAYAYAYAYAYYAYAAYAYAYA h sapiens cytoplasm
+        plot_f = lmpm.improve_sec.plot_optimization(mutated_scores, initial_score, plot_inplace=False, dpi=300)
+        mut_table = lmpm.top_mutations(mutated_scores, initial_score,15)
+        # help of https://gitlab.com/snippets/1924163 and https://stackoverflow.com/questions/50728328/python-how-to-show-matplotlib-in-flask
+        pngImage = io.BytesIO()
+        FigureCanvas(plot_f).print_png(pngImage)
+        # Encode PNG image to base64 string
+        b64plot = str("data:image/png;base64,")+str(base64.b64encode(pngImage.getvalue()).decode('utf8'))
+    except Exception as e:
+        return render_template("input_error.html", error=e)
 
     return render_template('improve.html', seqs=seqs, specie=specie, loc=localization, add_feats=add_feats, plot=b64plot, tables=[mut_table.to_html(classes='data', header="true")])
 
