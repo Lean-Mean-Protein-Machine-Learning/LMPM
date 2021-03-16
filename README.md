@@ -109,7 +109,7 @@ The localization and probabilities of the protein can also be predicted using th
   organism = 'human'
   target_location = 'all'
   predictions = predict_location(sequence, organism, target_location, include_dg=False)
-  preds.result
+  predictions.result
   ```
 
 ### Make point mutations in sequence to improve desired localization
@@ -129,7 +129,7 @@ Finally, the `top_mutations` function takes the results from the `optimize_seque
   ```python
   top_mutations(mutated_scores, initial_score, top_results=10)
   ```
-A more informative demo notebook is available under docs/lmpm_demo.ipynb
+A more informative demo notebook is available under [docs/lmpm_demo.ipynb](https://github.com/Lean-Mean-Protein-Machine-Learning/LMPM/blob/main/docs/lmpm_demo.ipynb)
 
 <!-- LICENSE -->
 ## License
