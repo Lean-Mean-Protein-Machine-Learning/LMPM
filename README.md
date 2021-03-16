@@ -117,10 +117,11 @@ Point mutations can be introduced in a sequence to investigate their effects on 
   ```python
   sequence = 'MKPNIIFVLSLLLILEKQAAVMGQKGGSKGRLPSEFSQFPHGQKGQHYSG'
   organism = 'human'
-  position = 10
-  mutated_scores, initial_score = optimize_sequence(seq, 'human', 'cytoplasm', include_dg=False, positions='4,9')
+  target_location = 'cytoplasm'
+  positions = '4,9'
+  mutated_scores, initial_score = optimize_sequence(sequence, organism, target_location, include_dg=False, positions=positions)
   ```
-The outputs of this function can be represented using the `plot_optimization` function. This takes as inputs the results returnd by the `optimize_sequence` function:
+The outputs of this function can be represented using the `plot_optimization` function. This takes as inputs the results returned by the `optimize_sequence` function:
   ```python
   plot_optimization(mutated_scores, initial_score, plot_inplace=True, dpi=100)
   ```
