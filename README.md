@@ -58,41 +58,81 @@ Install the environment:
   ```sh
   conda env create -f environment_dev.yml
   ```
-Load the environment and open jupyter notebook:
+Load the environment:
 
   ```sh
   conda activate lmpmdev
   jupyter notebook
   ```
+This environment fulfills the requirements of the module:
+- python=3.8.8
+- numpy=1.20.1
+- pandas=1.2.3
+- matplotlib=3.3.4
+- seaborn=0.11.1
+- scikit-learn=0.23.2
+
+The `lmpm` module can be installed using:
+```sh
+python3 -m pip install git+https://github.com/Lean-Mean-Protein-Machine-Learning/LMPM
+```
 
 
 <!-- USAGE EXAMPLES -->
 ## Usage
 
-First, import functions:
+First, import the module:
   ```python
-  from lmpm import improve_sec, predict
+  import lmpm
   ```
-### Predict secretion score
-The secretion score of a protein can be predicted from our trained models with `secretion_score`. See an example below:
+
+Alternatively, the six main functions can be imported individually:
+```python
+from lmpm import predict_loc_simple
+from lmpm import predict_location
+from lmpm import optimize_sequence
+from lmpm import plot_optimization
+from lmpm import top_mutations
+```
+
+### Predict protein localization
+The localization probability of the protein (according to the model) can be predicted using `predict_loc_simple`. The function needs the user to specify a sequence, the desired organism, and the localization of interest (secreted, membrane, or cytoplasm):
   ```python
   sequence = 'MKPNIIFVLSLLLILEKQAAVMGQKGGSKGRLPSEFSQFPHGQKGQHYSG'
   organism = 'human'
-  predicted_class, secretion_score = secretion_score(sequence, organism)
+  target_location = 'secreted'
+  predicted_class, secretion_score = predict_loc_simple(sequence, organism, target_location, include_dg=False)
   ```
-### Make point mutations in sequence to improve secretion score
-Point mutations can be introduced in a sequence to improve secretion score. This can be done using our trained models with `secretion_optimization`. See an example below:
+The localization and probabilities of the protein can also be predicted using the more versatile function `predict_location`. This can be expanded to all organisms and returns the results as a class with multiple attributes:
+  ```python
+  sequence = 'MKPNIIFVLSLLLILEKQAAVMGQKGGSKGRLPSEFSQFPHGQKGQHYSG'
+  organism = 'human'
+  target_location = 'all'
+  predictions = predict_location(sequence, organism, target_location, include_dg=False)
+  preds.result
+  ```
+
+### Make point mutations in sequence to improve desired localization
+Point mutations can be introduced in a sequence to investigate their effects on protein localization. First, the `optimize_sequence` function takes in the sequence, organism, desired localization, and the positions for desired point mutations. Note that only one point mutation occurs at a time. The `mutated_scores` variable below returns a data frame of amino acids vs. the locations for point mutations and the values of the localization scores (as the probability of the protein belonging to the desired localization class).
   ```python
   sequence = 'MKPNIIFVLSLLLILEKQAAVMGQKGGSKGRLPSEFSQFPHGQKGQHYSG'
   organism = 'human'
   position = 10
-  mutated_sequence, _ = secretion_optimization(sequence, organism, position)
+  mutated_scores, initial_score = optimize_sequence(seq, 'human', 'cytoplasm', include_dg=False, positions='4,9')
   ```
-
+The outputs of this function can be represented using the `plot_optimization` function. This takes as inputs the results returnd by the `optimize_sequence` function:
+  ```python
+  plot_optimization(mutated_scores, initial_score, plot_inplace=True, dpi=100)
+  ```
+Finally, the `top_mutations` function takes the results from the `optimize_sequence` function and returns the top mutations that change the localization score. The example below shows the top 10 results from the optimization function:
+  ```python
+  top_mutations(mutated_scores, initial_score, top_results=10)
+  ```
+A more informative demo notebook is available under docs/lmpm_demo.ipynb
 
 <!-- LICENSE -->
 ## License
-
+This project is licensed under the MIT license.
 
 
 
@@ -100,9 +140,9 @@ Point mutations can be introduced in a sequence to improve secretion score. This
 <!-- CONTACT -->
 ## Contact
 
-- Melissa Ling - mling13@uw.edu
-- Marc Exposit
-- Andrew Favor
+- Melissa Ling - mling13@uw.edu Github: mling13
+- Marc Exposit - mexposit@uw.edu Github: marcexpositg
+- Andrew Favor - afavor@uw.edu Github: andrewfavor95
 - Joe Henthorn - JosefH1@uw.edu  GitHub: JoeHenthorn
-- Gizem Gokce
+- Gizem Gokce - gizemg@uw.edu Github: gizemgokce
 
