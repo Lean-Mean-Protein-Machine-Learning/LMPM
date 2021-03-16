@@ -10,13 +10,11 @@ from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 
 
 # append this path so that the lmpm module is found
-# another option would be installing it with pip, but for debugging this is faster
+# another option would be installing it with pip
 sys.path.append('/')
 import lmpm
 import lmpm.unirep as unirep
 
-##Alternative
-## import lmpm.submodule_ex as submod
 
 app = Flask(__name__)
 
@@ -50,6 +48,7 @@ def mutate():
     mutated_scores, initial_score = lmpm.optimize_sequence(seqs, specie, localization, include_dg=add_feats, positions=positions)
     # example: AYAYAYAYAYAYYAYAAYAYAYA h sapiens cytoplasm
     plot_f = lmpm.improve_sec.plot_optimization(mutated_scores, initial_score, plot_inplace=False, dpi=300)
+    mut_table = lmpm.top_mutations(mutated_scores, initial_score,15)
 
     # help of https://gitlab.com/snippets/1924163 and https://stackoverflow.com/questions/50728328/python-how-to-show-matplotlib-in-flask
     pngImage = io.BytesIO()
@@ -58,7 +57,7 @@ def mutate():
     # Encode PNG image to base64 string
     b64plot = str("data:image/png;base64,")+str(base64.b64encode(pngImage.getvalue()).decode('utf8'))
 
-    return render_template('improve.html', seqs=seqs, specie=specie, loc=localization, add_feats=add_feats, plot=b64plot)
+    return render_template('improve.html', seqs=seqs, specie=specie, loc=localization, add_feats=add_feats, plot=b64plot, tables=[mut_table.to_html(classes='data', header="true")])
 
 
 @app.route('/guide')
@@ -74,9 +73,9 @@ def page_not_found(e):
     return render_template('404.html')
 
 if __name__ == "__main__":
-    # use this when running in the website
-    # port = int(os.environ.get('PORT', 5000))
-    # app.run(host='0.0.0.0', port = port)
-    # this is used if you run it as flask app to debug (Specifying port explicity lis important in this case)
-    app.run(debug=True,host='0.0.0.0',port=5000)
-    app.run(debug=True)
+    # use this when running in the website (heroku)
+    port = int(os.environ.get('PORT', 5000))
+    app.run(host='0.0.0.0', port = port)
+    # this is used if you run it as flask app to debug (Specifying port explicity is important in this case)
+    # app.run(debug=True,host='0.0.0.0',port=5000)
+    # app.run(debug=True)

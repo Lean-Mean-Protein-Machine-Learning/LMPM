@@ -23,3 +23,22 @@ body {
   cursor: pointer;
   background-color: #545b62;
 }
+
+table.dataframe, .dataframe th, .dataframe td {
+  border: none;
+  border-bottom: 1px solid #C8C8C8;
+  border-collapse: collapse;
+  text-align:center;
+  padding: 10px;
+  font-size: 0.95em;
+}
+
+.data th {
+    background-color: #ffb23f;
+    color: white;
+}
+
+tr:nth-child(odd)		{ background-color:#eee; }
+tr:nth-child(even)	{ background-color:#fff; }
+
+tr:hover            { background-color: #ffff99;}
