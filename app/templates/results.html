@@ -35,6 +35,49 @@
         <div class="row">
             <div class="col-md-12">
                 <div id="accordion">
+
+                    <div class="card">
+                        <div class="card-header" id="headingzero">
+                            <h5 class="mb-0">
+                                <button class="btn btn-link collapsed" style="white-space:normal" data-toggle="collapse"
+                                    data-target="#collapsezero" aria-expanded="false" aria-controls="collapsezero">
+                                    Review query:
+                                </button>
+                            </h5>
+                        </div>
+
+                        <div id="collapsezero" class="collapse" aria-labelledby="headingzero" data-parent="#accordion">
+                            <div class="card-body">
+                                <p>The selected organism was: <code>{{pred.query['organism']}}</code></p>
+                                <p>The selected localization was: <code>{{pred.query['location']}}</code></p>
+                                <p>The included features were <code>{{ 'included' if pred.query['include_dg'] else 'not included' }}</code>.</p>
+                                <p>The input sequence was: <code>{{ pred.query['sequence'] }}</code>.</p>
+                                
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header" id="headingtwo">
+                            <h5 class="mb-0">
+                                <button class="btn btn-link collapsed" style="white-space:normal" data-toggle="collapse"
+                                    data-target="#collapsetwo" aria-expanded="false" aria-controls="collapsetwo">
+                                    See the predictions in other locations and organisms:
+                                </button>
+                            </h5>
+                        </div>
+
+                        <div id="collapsetwo" class="collapse" aria-labelledby="headingtwo" data-parent="#accordion">
+                            <div class="card-body">
+                                <p>The probabilities of being secreted in each localization for each organism are:</p>
+                                {% for table in tables %}
+                                    {{ table|safe }}
+                                {% endfor %}
+                                <p><i>Note that the probabilities should sum up to one within each organism.</i></p>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="card">
                         <div class="card-header" id="headingOne">
                             <h5 class="mb-0">
@@ -47,43 +90,6 @@
 
                         <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
                             <div class="card-body">
-                                <!-- <form method="POST" , action="{{url_for('load_seqs')}}">
-                                <p><b>Select organism of interest:</b>
-            
-                                <ul id="organism_select" class="list-group list-group-horizontal">
-                                    <li class="list-group-item">
-                                        <input type="radio" name="species" value="human" checked><label for="human"><i>Homo
-                                                sapiens</i></label>
-                                    </li>
-                                    <li class="list-group-item">
-                                        <input type="radio" name="species" value="yeast"><label for="yeast"><i>Saccharomyces
-                                                cerevisiae</i></label>
-                                    </li>
-                                    <li class="list-group-item">
-                                        <input type="radio" name="species" value="ecoli"><label for="ecoli"><i>Escherichia
-                                                coli</i></label>
-                                    </li>
-                                </ul>
-
-                                <br>
-
-                                <p><b>Select location of interest:</b>
-                                <ul id="location_select" style="list-style-type:none;" class="list-group list-group-horizontal">
-                                    <li class="list-group-item">
-                                        <input type="radio" name="location" value="cytoplasm" checked><label for="cytoplasm">Cytoplasm</label>
-                                    </li>
-                                    <li class="list-group-item">
-                                        <input type="radio" name="location" value="membrane"><label for="membrane">Membrane</label>
-                                    </li>
-                                    <li class="list-group-item">
-                                        <input type="radio" name="location" value="secreted"><label for="secreted">Secreted</label>
-                                    </li>
-                                </ul>
-
-                                <br>
-
-                                <input type="submit" , value='Predict'> <input type="reset" , value='Reset'>
-                            </form> -->
 
                                 <form method="POST" , action="{{url_for('mutate')}}">
 
@@ -149,6 +155,10 @@
                                                     features</b> (may improve the model accuracy)</label>
                                         </div>
                                     </div>
+                                    <div class="form-group row">
+                                        <p><i>Note: Including more than two positions may require a few minutes if the input sequence is long (>100 amino acids).</i></p>
+                                        <p><i>Note 2: This function may return an error when using the Heroku-hosted version of the app, as there is a memory limit. Try with a sequence of 11 amino acids and mutating only 2 positions.</i></p>
+                                    </div>
                                     <div class="form-group">
                                         <input class="btn btn-primary" type="submit" value="Predict">
                                         <input class="btn btn-outline-primary" type="reset" value="Reset">
@@ -164,7 +174,7 @@
 
     <div class="container">
         <div class="row">
-            <div class="col-md-12">
+            <div class="col-md-12 pt-5">
                 <a href='/'>Go back to home page</a>
             </div>
         </div>
