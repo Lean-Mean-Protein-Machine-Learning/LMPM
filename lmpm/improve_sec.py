@@ -158,8 +158,8 @@ def plot_optimization(mutated_scores, initial_score, plot_inplace=True, dpi=100)
 #     ticks_loc = mutated_scores.columns.tolist()
 #     ax.xaxis.set_major_locator(mticker.FixedLocator(ticks_loc))
 #     ax.set_xticklabels([x for x in ticks_loc])
-    ax.set_xlabel('Position and original amino acid')
-    ax.set_ylabel('Mutation')
+    ax.set_xlabel('Position and original amino acid', fontsize=12)
+    ax.set_ylabel('Mutation', fontsize=12)
 
     # if on a notebook, plot and return nothing or it would be plot twice 
     if plot_inplace:
