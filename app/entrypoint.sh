@@ -1,6 +1,8 @@
 #!/bin/bash --login
 set -e
 
+# this file was required when using the conda environment for the web app. This was slow and took too much memory, so it is no longer needed.
+
 # activate conda environment and let the following process take over
 conda activate lmpmenv
 exec "$@"
