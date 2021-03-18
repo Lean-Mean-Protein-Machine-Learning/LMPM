@@ -41,8 +41,10 @@
             <div class="col-md-4">
                 <h3>Protein localization</h3>
                 <p><b>The localization of proteins is critical to its function.</b>
-                    Expressed proteins either remain in the cytoplasm, attach to the membrane or get secreted out of the cell.
-                    The mechanisms that determine protein localization depend on the species. A common problem in protein expression
+                    Expressed proteins either remain in the cytoplasm, attach to the membrane or get secreted out of the
+                    cell.
+                    The mechanisms that determine protein localization depend on the species. A common problem in
+                    protein expression
                     experiments is expressing the proteins in an incorrect localization. Hence, predicting protein
                     localization in commonly used expression systems is relevant to protein designers.</p>
                 <!-- <p><a class="btn btn-secondary" href="#" role="button">View details &raquo;</a></p> -->
@@ -51,17 +53,21 @@
                 <h3>Our model</h3>
                 <p><b>Protein localization can be predicted from its sequence.</b>
                     Our model processes the protein sequence to a unified statistical representation
-                    (<a href="https://www.nature.com/articles/s41592-019-0598-1">Unirep</a>) and builds a random forest classifier to predict the localization of the protein.
+                    (<a href="https://www.nature.com/articles/s41592-019-0598-1">Unirep</a>) and builds a random forest
+                    classifier to predict the localization of the protein.
                     The model was trained using all the proteins in the Uniprot datasets for
                     <i>Escherichia coli</i>, <i>Saccharomyces cerevisiae</i>, and <i>Homo sapiens</i>, achieving
-                    a test accuracy of 98.79%, 96.41%, and 92.59%, respectively.</p>
+                    a test accuracy of 98.79%, 96.41%, and 92.59%, respectively.
+                </p>
                 <!-- <p><a class="btn btn-secondary" href="#" role="button">View details &raquo;</a></p> -->
             </div>
             <div class="col-md-4">
                 <h3>Applications</h3>
                 <p><b>Predicting protein localization helps protein designers in its day-to-day tasks.</b>
-                    The versatility of the model can be used to compare the protein localization across multiple organisms or
-                    to predict the most likely localization in a given host organism. We also offer the possibility to optimize 
+                    The versatility of the model can be used to compare the protein localization across multiple
+                    organisms or
+                    to predict the most likely localization in a given host organism. We also offer the possibility to
+                    optimize
                     the localization of interest by testing all residue substitutions in certain sequence positions,
                     thus recreating a site-saturation mutagenesis experiment computationally.</p>
                 <!-- <p><a class="btn btn-secondary" href="#" role="button">View details &raquo;</a></p> -->
@@ -79,11 +85,12 @@
                 <form method="POST" , action="{{url_for('load_seqs')}}">
 
                     <div class="form-group">
-                        <label for="seqs" data-toggle="tooltip"
-                        data-placement="bottom"
-                        title="The sequence can either be in single-letter code (e.g. AGT) or three-letter code (e.g. AlaGlyThr). Case is not relevant."><b>Enter your sequence of interest: </b><i class="fa fa-question-circle"></i></label>
-                        <span onclick=changeContent() class="badge badge-pill badge-secondary load-example">Load example sequence (Human Heat Shock Protein Beta-1, HSPB-1, UniRef: A0A6Q8PHA6)</span>
-                        
+                        <label for="seqs" data-toggle="tooltip" data-placement="bottom"
+                            title="The sequence can either be in single-letter code (e.g. AGT) or three-letter code (e.g. AlaGlyThr). Case is not relevant."><b>Enter
+                                your sequence of interest: </b><i class="fa fa-question-circle"></i></label>
+                        <span onclick=changeContent() class="badge badge-pill badge-secondary load-example">Load example
+                            sequence (Human Heat Shock Protein Beta-1, HSPB-1, UniRef: A0A6Q8PHA6)</span>
+
                         <div class="col-md-9">
                             <textarea class="form-control" style="min-width: 100%" name='seqs' id="seqs" rows="10"
                                 placeholder="Enter sequences here..."></textarea>
@@ -93,7 +100,8 @@
                     <div class="form-group">
                         <p><b>Select organism of interest:</b></p>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="species" value="human" id="human" checked>
+                            <input class="form-check-input" type="radio" name="species" value="human" id="human"
+                                checked>
                             <label class="form-check-label" for="human"><i>Homo sapiens</i></label>
                         </div>
                         <div class="form-check form-check-inline">
@@ -132,7 +140,14 @@
                     </div>
 
                     <div class="form-group row">
-                        <p><i>Note: When using the Heroku-hosted version of the app, using sequences longer than 15 amino acids causes a memory error. If you want to try it, use shorter sequences. Thanks.</i></p>
+                        <p><i>Note: When using the Heroku-hosted version of the app, using sequences longer than 15
+                                amino acids causes a memory error because memory is limited in the Free tier of Heroku.
+                                If you want to try it, use shorter sequences. Alternatively, <b></b>check out our
+                                [getting
+                                started](https://github.com/Lean-Mean-Protein-Machine-Learning/LMPM#getting-started)
+                                section</b> on github to see how you can use the web app in your computer in just 4
+                                steps and less than a minute. This way the app should work perfectly without any
+                                errors.</i></p>
                     </div>
 
                     <div class="form-group">
@@ -154,11 +169,11 @@
 </script>
 
 <!-- Load example sequence -->
-<script> 
-    function changeContent() { 
-        var x = document.getElementById('seqs'); 
-        x.value = "MTERRVPFSLLRGPSWDPFRDWYPHSRLFDQAFGLPRLPEEWSQWLGGSSWPGYVRPLPPAAIESPAVAAPAYSRALSRQLSSGVSEIRHTADRWRVSLDVNHFAPDELTVKTKDGVVEITARGAAGRAWLHLPVLHAEIHAAPRCGPHPSFLLPVP"; 
-    } 
-</script> 
+<script>
+    function changeContent() {
+        var x = document.getElementById('seqs');
+        x.value = "MTERRVPFSLLRGPSWDPFRDWYPHSRLFDQAFGLPRLPEEWSQWLGGSSWPGYVRPLPPAAIESPAVAAPAYSRALSRQLSSGVSEIRHTADRWRVSLDVNHFAPDELTVKTKDGVVEITARGAAGRAWLHLPVLHAEIHAAPRCGPHPSFLLPVP";
+    }
+</script>
 
 {% endblock %}
