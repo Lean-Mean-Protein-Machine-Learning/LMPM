@@ -2,49 +2,58 @@
 Write tests for the predict.py functions.
 """
 
-import lmpm.unirep.unirep_utils as unirep_utils
 import numpy as np
 
+import lmpm.unirep.unirep_utils as unirep_utils
+
+
 def test_my_seq_to_ints():
-    seqs = ['ALIENSRCMING','invalidAAstring']
+    seqs = ["ALIENSRCMING", "invalidAAstring"]
     for seq in seqs:
         try:
             unirep_utils.my_seq_to_ints(seq)
         except Exception as exep:
-            assert isinstance(exep, KeyError), "Passing invalid sequences did not raise an error"
+            assert isinstance(
+                exep, KeyError
+            ), "Passing invalid sequences did not raise an error"
 
 
 # def test_my_get_embeddings():
 #     unirep_utils.my_get_embeddings(sequence, embeddings)
 
 
-
 def test_sigmoid():
-    xs = [42, 'alien_number']
+    xs = [42, "alien_number"]
     for x in xs:
         try:
             unirep_utils.sigmoid(x, version="tanh")
         except Exception as exep:
-            assert isinstance(exep, TypeError), "Passing invalid values in sigmoid did not raise an error"
+            assert isinstance(
+                exep, TypeError
+            ), "Passing invalid values in sigmoid did not raise an error"
 
 
 def test_tanh():
-    xs = [42, 'alien_number']
+    xs = [42, "alien_number"]
     for x in xs:
         try:
             unirep_utils.tanh(x)
         except Exception as exep:
-            assert isinstance(exep, TypeError), "Passing invalid values in tanh did not raise an error"
-
+            assert isinstance(
+                exep, TypeError
+            ), "Passing invalid values in tanh did not raise an error"
 
 
 def test_safe_sigmoid_exp():
-    xs = [42, 'alien_number']
+    xs = [42, "alien_number"]
     for x in xs:
         try:
             unirep_utils.safe_sigmoid_exp(x, clip_value=-88)
         except Exception as exep:
-            assert isinstance(exep, np.core._exceptions._UFuncNoLoopError), "Passing invalid values in safe_sigmoid_exp did not raise an error"
+            assert isinstance(
+                exep, np.core._exceptions._UFuncNoLoopError
+            ), str("Passing invalid values in safe_sigmoid_exp did not raise"
+                   + " an error")
 
 
 # def test_l2_normalize():
@@ -55,18 +64,23 @@ def test_safe_sigmoid_exp():
 #     unirep_utils.mLSTMCell(carry,x_t)
 
 
-
 def test_scan():
     try:
-        unirep_utils.scan(unirep_utils.mLSTMCell,init=(34,24), xs = None, length=8)
+        unirep_utils.scan(
+            unirep_utils.mLSTMCell, init=(34, 24), xs=None, length=8
+        )
     except Exception as e:
-        assert isinstance(e, ValueError), "Passing incorrect values to scan did not raise a ValueError"
+        assert isinstance(
+            e, ValueError
+        ), "Passing incorrect values to scan did not raise a ValueError"
 
 
 def test_get_UniReps():
-    seqs = ['ALIENSRCMING','invalidaastring']
+    seqs = ["ALIENSRCMING", "invalidaastring"]
     for seq in seqs:
         try:
             unirep_utils.get_UniReps(seq)
         except Exception as exep:
-            assert isinstance(exep, KeyError), "Passing invalid sequences did not raise an error"
+            assert isinstance(
+                exep, KeyError
+            ), "Passing invalid sequences did not raise an error"

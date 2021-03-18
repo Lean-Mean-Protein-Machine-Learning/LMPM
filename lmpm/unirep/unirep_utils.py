@@ -1,8 +1,6 @@
-
-import os,sys
+import os
 
 import numpy as np
-
 
 
 """Dictionary for converting amino acids to their integer key value"""
@@ -38,9 +36,9 @@ aa_to_int = {
     "stop": 25,
 }
 
+
 def my_seq_to_ints(seq):
     return [24] + [aa_to_int[a] for a in list(seq)] + [25]
-
 
 
 def my_get_embeddings(sequence, embeddings):
@@ -49,8 +47,9 @@ def my_get_embeddings(sequence, embeddings):
     return x
 
 
-
 """Neural network utility functions, including activations and normalization"""
+
+
 def sigmoid(x, version="tanh"):
     sigmoids = {
         "tanh": lambda x: 0.5 * np.tanh(x) + 0.5,
@@ -58,13 +57,15 @@ def sigmoid(x, version="tanh"):
     }
     return sigmoids[version](x)
 
+
 def tanh(x):
     return np.tanh(x)
 
 
 def safe_sigmoid_exp(x, clip_value=-88):
-    x = np.clip(x, a_min=-88,a_max=None)
+    x = np.clip(x, a_min=-88, a_max=None)
     return 1 / (1 + np.exp(-x))
+
 
 def l2_normalize(arr, axis, epsilon=1e-12):
     sq_arr = np.power(arr, 2)
@@ -74,16 +75,23 @@ def l2_normalize(arr, axis, epsilon=1e-12):
 
 
 """Define function for loading weights from directory"""
+
+
 def load_weights():
     params = {}
-    dir_path = os.path.join(os.path.dirname(os.path.realpath(__file__)),'weight_files/')
+    dir_path = os.path.join(
+        os.path.dirname(os.path.realpath(__file__)), "weight_files/"
+    )
     for file in os.listdir(dir_path):
-        if file[-4:] == '.npy':
-            if file.split('_weights')[0] == 'embedding':
-                embedding_weights = np.load(os.path.join(dir_path,file))
+        if file[-4:] == ".npy":
+            if file.split("_weights")[0] == "embedding":
+                embedding_weights = np.load(os.path.join(dir_path, file))
             else:
-                params[file.split('_weights_')[-1].split('.npy')[0]] = np.load(os.path.join(dir_path,file))
+                params[file.split("_weights_")[-1].split(".npy")[0]] = np.load(
+                    os.path.join(dir_path, file)
+                )
     return embedding_weights, params
+
 
 """Load all weights"""
 embedding_weights, params = load_weights()
@@ -95,11 +103,7 @@ wmx = l2_normalize(params["wmx"], axis=0) * params["gmx"]
 wmh = l2_normalize(params["wmh"], axis=0) * params["gmh"]
 
 
-
-
-
-
-def mLSTMCell(carry,x_t):
+def mLSTMCell(carry, x_t):
     h_t, c_t = carry
 
     # Shape annotation
@@ -130,22 +134,17 @@ def mLSTMCell(carry,x_t):
     return (h_t, c_t), h_t
 
 
-
-
 def scan(f, init, xs, length=None):
     if xs is None:
         xs = [None] * length
     carry = init
     ys = []
 
-
     for x in xs:
         carry, y = f(carry, x)
         ys.append(y)
 
     return carry, np.stack(ys)
-
-
 
 
 def get_UniReps(seqs):
@@ -156,22 +155,14 @@ def get_UniReps(seqs):
         seqs = [seqs]
 
     for seq in seqs:
-        x = my_get_embeddings(seq,embedding_weights)
+        x = my_get_embeddings(seq, embedding_weights)
         h_t = np.zeros(params["wmh"].shape[0])
         c_t = np.zeros(params["wmh"].shape[0])
-        
+
         outputs = scan(mLSTMCell, init=(h_t, c_t), xs=x)[1]
-        
+
         h_avg = outputs.mean(axis=0)
 
         h_avg_list.append(h_avg)
 
-
     return np.stack(h_avg_list)
-
-
-
-
-
-
-

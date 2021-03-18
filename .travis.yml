@@ -29,8 +29,9 @@ install:
 # run this before the main script
 # here to check if code in lmpm module is pep8 compilant
 # add it once we make everything pep8 compilant
-# before_script:
-    # - flake8 lmpm
+# ignore __init__.py file error about imported but unused imports
+before_script:
+    - flake8 --per-file-ignores="__init__.py:F401" lmpm
 
 # the commands to run
 # we could also use unittest instead of nose
